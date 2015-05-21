@@ -1,0 +1,16 @@
+Sequence s1 (mos) 0
+	gifs emoji/
+		150	1	120
+endSeq
+
+Sequence s2 (spec) emoji/ 0
+	(0, 0, 0) (255, 0, 255) 15
+		stripes
+			150	1	120	1
+	(0, 0, 0) (0, 255, 255) 15
+endSeq
+
+makeAnim
+s1
+s2
+endAnim

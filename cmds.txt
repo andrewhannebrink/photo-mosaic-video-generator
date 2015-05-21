@@ -1,0 +1,20 @@
+# install ffmpeg
+sudo add-apt-repository ppa:kirillshkrogalev/ffmpeg-next
+sudo apt-get update
+sudo apt-get install ffmpeg
+
+# compress pictures from directory mov/ into video called movie.mp4
+ffmpeg -r 30 -i mov/anim%04d.png -vb 20000k -c:v libx264 -pix_fmt yuv420p movie.mp4
+
+# write frames as images called anim0001.png, anim0002.png...  into directory called mov/ using instructions from the instructions file ins/test.txt from second 0 to second 10 for each mp4 referenced in ins/test.txt
+python remoji.py -v -p mov/ ins/test.txt 0 10
+
+# concatenate frame pictures from mov0/ through mov5/ in order and save them to mov/ 
+python remoji.py -j mov0/ mov1/ mov2/ mov3/ mov4/ mov5/ mov/
+
+# take span from 10 seconds to 20 seconds of test1.MP4 and save it as a new mp4 at test2.MP4
+ffmpeg -ss 00:00:10.00 -t 00:00:20.00 -i test1.MP4 -r 30.0 test2.MP4
+
+# slow down test1.MP4 by a factor of 2, and save it as slow.MP4 
+ffmpeg -i test1.MP4 -filter:v "setpts=2.0*PTS" slow.MP4
+
