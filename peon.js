@@ -29,8 +29,8 @@ setInterval(function() {
 });*/
 
 //bot.randRemoji('emoji/', 15, 18);
-bot.randRemoji('emoji/', 15, 20);
-}, 10000);
+bot.randRemoji();
+}, 30000);
 
 /*bot.stream('emoji', function(err, reply) {
   if (err) return handleError(err);

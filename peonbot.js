@@ -10,6 +10,8 @@ var exec = require('child_process').exec;
 var Bot = module.exports = function(config) { 
   this.twit = new Twit(config);
 };
+// make childproc belong to bot to avoid memory leak
+Bot.prototype.childProc;
 
 //
 //  post a tweet
@@ -55,6 +57,9 @@ Bot.prototype.picpost = function(text, pic, callback) {
     var mediaIdStr = data.media_id_string;
     var paramas = { status: text, media_ids: [mediaIdStr] };
     thisbot.twit.post('statuses/update', paramas, function(err, data, response) {
+      if (err) {
+        console.log(err);
+      }
       console.log('data: ' + data);
     });
   });
@@ -67,7 +72,7 @@ Bot.prototype.remoji = function (dir, scale, reso, inputPath) {
   var cmd = 'python remoji.py -s ' + inputPath + ' ' + dir + ' ' + opPath + ' ' + scale + ' ' + reso;
   console.log(cmd);
   var opExists = false;
-  exec(cmd, function(error, stdout, stderr) {
+  this.childProc = exec(cmd, function(error, stdout, stderr) {
     console.log('stdout: ' + stdout);
     console.log('stderr: ' + stderr);
     if (error !== null) {
@@ -77,32 +82,24 @@ Bot.prototype.remoji = function (dir, scale, reso, inputPath) {
       if (err) return handleError(err);
     });
   });
-  
-  /*while (opExists === false) {
-    setInterval(function () {
-      fs.exists('./' + opPath, function (exists) {
-        if (exists === true) {
-          opExists = true;
-        } else {
-          console.log(opPath + ' does not exist...');
-        }
-      });
-    }, 3000);
-  }
-  console.log('finally, it exists');*/
 };
 
-Bot.prototype.randRemoji = function (dir, scale, reso) {
+Bot.prototype.randRemoji = function () {
+  var possDirs = ['emoji/', 'win/'];
+  var bigImgDir = randIndex(possDirs);
+  var lilImgDir = randIndex(possDirs);
+  var scale = 15;
+  var reso = Math.floor(Math.random() * (40 - 7) + 7); 
   var thisbot = this;
-  var jsdir = './' + dir;
+  var jsdir = './' + bigImgDir;
   fs.readdir(jsdir, function (err, files) {
     if (err) {
       throw err;
       return
     }
     else {
-      var file = dir + '/' + randIndex(files);
-      thisbot.remoji(dir, scale, reso, file);
+      var file = bigImgDir + randIndex(files);
+      thisbot.remoji(lilImgDir, scale, reso, file);
     }
   });
 };
