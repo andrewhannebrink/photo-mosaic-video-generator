@@ -1,0 +1,42 @@
+var Bot = require('./peonbot')
+  , config1 = require('./config1');
+
+var bot = new Bot(config1);
+
+console.log('peon: Running.');
+
+//get date string for today's date (e.g. '2011-01-01')
+function datestring () {
+  var d = new Date(Date.now() - 5*60*60*1000);  //est timezone
+  return d.getUTCFullYear()   + '-'
+     +  (d.getUTCMonth() + 1) + '-'
+     +   d.getDate();
+};
+
+setInterval(function() {
+/*  bot.tweet('praise be to @tiny_icon', function (err, reply) {
+    if (err) return handleError(err);
+    console.log('\nTweet: ' + (reply ? reply.text : reply));
+  });*/
+
+/*  var date = datestring();
+  bot.search('emoji', date, function (err, reply) {
+    if (err) return handleError(err);
+  });*/ 
+
+/*bot.picpost('@tiny_icon look at me', '/home/ubuntu/photo-mosaic-video-generator/public/stache.png', function(err, reply) {
+  if (err) return handleError(err);
+});*/
+
+//bot.randRemoji('emoji/', 15, 18);
+bot.randRemoji('emoji/', 15, 20);
+}, 10000);
+
+/*bot.stream('emoji', function(err, reply) {
+  if (err) return handleError(err);
+});*/
+
+function handleError(err) {
+  console.error('response status:', err.statusCode);
+  console.error('data:', err.data);
+}
