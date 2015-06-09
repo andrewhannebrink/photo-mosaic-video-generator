@@ -3,6 +3,7 @@
 //  class for performing various twitter actions
 //
 var fs = require('fs');
+var http = require('http');
 var utf8 = require('utf8');
 var Twit = require('./node_modules/twit/lib/twitter');
 var exec = require('child_process').exec;
@@ -12,6 +13,7 @@ var Bot = module.exports = function(config) {
 };
 // make childproc belong to bot to avoid memory leak
 Bot.prototype.childProc;
+Bot.prototype.spamLock = false;
 
 //
 //  post a tweet
@@ -38,15 +40,51 @@ Bot.prototype.search = function(term, date, callback) {
   });
 };
 
-Bot.prototype.stream = function(term, callback) {
-  if(typeof term !== 'string') {
-    return callback(new Error('search term must be of type String'));
-  }
-  var stream = this.twit.stream('statuses/filter', { track: term });
+Bot.prototype.emojiSpam = function(callback) {
+  var thisbot = this;
+  var stream = this.twit.stream('statuses/filter', { track: 'emoji' });
   stream.on('tweet', function (tweet) {
-    console.log(tweet);
+    if (tweet.entities.hasOwnProperty('media')) {
+      /*console.log(tweet.user.screen_name);
+      console.log(tweet.text);
+      console.log(tweet.entities.media);*/
+      if (tweet.entities.media.length === 1 && tweet.entities.media[0].type === 'photo') {
+        if (thisbot.spamLock === false) {
+          console.log('spam lock now true');
+          thisbot.spamLock = true;
+          var screen_name = tweet.user.screen_name;
+          console.log('downloading pic');
+          thisbot.DlPic(tweet.entities.media[0].media_url, thisbot.convertRemojiTweet(screen_name));
+          setTimeout(function() {
+            thisbot.spamLock = false;
+            console.log('spamLock now false');
+          }, 480000);
+        }
+      }
+    }
+    //console.log(tweet);
     console.log('====================================================');
   });
+};
+
+Bot.prototype.DlPic = function(url, callback) {
+  var thisbot = this;
+  var file = fs.createWriteStream('./public/downloaded.jpg');
+  var request = http.get(url, function(response) {
+    response.pipe(file);
+  });
+};
+
+Bot.prototype.convertRemojiTweet = function(screen_name) {
+  var thisbot = this;
+  var text = 'what about emojis? @' + screen_name + ' @tiny_icon - drag drop cut paste click play vimeo.com/tinyicon';
+  setTimeout(function() {
+    thisbot.childProc = exec('convert public/downloaded.jpg public/downloaded.png', function(error, stdout, stderr) {
+      console.log('stdout: ' + stdout);
+      console.log('stderr: ' + stderr);
+      thisbot.remoji('emoji/', 1, 8, 'public/downloaded.png', text);
+    });
+  }, 5000);
 };
 
 Bot.prototype.picpost = function(text, pic, callback) {
@@ -65,7 +103,7 @@ Bot.prototype.picpost = function(text, pic, callback) {
   });
 };
 
-Bot.prototype.remoji = function (dir, scale, reso, inputPath) {
+Bot.prototype.remoji = function (dir, scale, reso, inputPath, text) {
   var thisbot = this;
   var opName = 'test.png';
   var opPath = 'public/' + opName;
@@ -78,7 +116,7 @@ Bot.prototype.remoji = function (dir, scale, reso, inputPath) {
     if (error !== null) {
       console.log('exec error: ' + error);
     }
-    thisbot.picpost('i do it for @tiny_icon', './' + opPath, function(err, reply) {
+    thisbot.picpost(text, './' + opPath, function(err, reply) {
       if (err) return handleError(err);
     });
   });
@@ -99,7 +137,8 @@ Bot.prototype.randRemoji = function () {
     }
     else {
       var file = bigImgDir + randIndex(files);
-      thisbot.remoji(lilImgDir, scale, reso, file);
+      var text = 'i do it for @tiny_icon';
+      thisbot.remoji(lilImgDir, scale, reso, file, text);
     }
   });
 };
@@ -108,3 +147,5 @@ function randIndex (arr) {
   var index = Math.floor(arr.length*Math.random());
   return arr[index];
 };
+
+

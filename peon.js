@@ -14,6 +14,17 @@ function datestring () {
 };
 
 setInterval(function() {
+  bot.randRemoji();
+}, 480000);
+
+bot.emojiSpam(function(err, reply) {
+  if (err) return handleError(err);
+});
+
+function handleError(err) {
+  console.error('response status:', err.statusCode);
+  console.error('data:', err.data);
+}
 /*  bot.tweet('praise be to @tiny_icon', function (err, reply) {
     if (err) return handleError(err);
     console.log('\nTweet: ' + (reply ? reply.text : reply));
@@ -23,20 +34,3 @@ setInterval(function() {
   bot.search('emoji', date, function (err, reply) {
     if (err) return handleError(err);
   });*/ 
-
-/*bot.picpost('@tiny_icon look at me', '/home/ubuntu/photo-mosaic-video-generator/public/stache.png', function(err, reply) {
-  if (err) return handleError(err);
-});*/
-
-//bot.randRemoji('emoji/', 15, 18);
-bot.randRemoji();
-}, 30000);
-
-/*bot.stream('emoji', function(err, reply) {
-  if (err) return handleError(err);
-});*/
-
-function handleError(err) {
-  console.error('response status:', err.statusCode);
-  console.error('data:', err.data);
-}
