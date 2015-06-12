@@ -43,10 +43,10 @@ def getAvgColor(imageFile, colorStr, skip = 5):
 				
 
 #THIS FUNCTION RETURNS THE AVERAGE RED, GREEN, AND BLUE VALUES OF AN IMAGE IN A LIST
-def getAvgRGB(imageFile):
-	r = getAvgColor(imageFile, 'r')
-	g = getAvgColor(imageFile, 'g')
-	b = getAvgColor(imageFile, 'b')
+def getAvgRGB(imageFile, skip = 5):
+	r = getAvgColor(imageFile, 'r', skip)
+	g = getAvgColor(imageFile, 'g', skip)
+	b = getAvgColor(imageFile, 'b', skip)
 	return (r, g, b)
 
 #THIS FUNCTION REMOVES TRANSPARENCY IN THE IMG LIBRARY BY TAKING EVERY IMAGE IN THE GIVEN DIRECTORY, FINDS PIXELS WITH AN ALPHA VALUE OF 0, AND CONVERTS THE RGBA VALUES TO (255,255,255) FOR EVERY ONE OF THOSE PIXELS, AND SAVES THE IMAGES TO THEIR ORIGINAL NAMES AS RGB PNGS RATHER THAN RGBA PNGS
@@ -69,10 +69,10 @@ def changeLittleImgs(dbDir):
 
 #THIS CLASS HOLDS INFORMATION ABOUT AN IMAGE WITH A GIVEN NAME WITHOUT LEAVING THE IMAGE FILE OPEN
 class ImageInfo:
-	def __init__(self, imgName, imageFile):
+	def __init__(self, imgName, imageFile, skip = 5):
 		self.name = imgName
 		self.width, self.height = imageFile.size
-		self.avgRGB = getAvgRGB(imageFile)
+		self.avgRGB = getAvgRGB(imageFile, skip)
 		self.mult = 1
 	def disp(self):
 		print '----------------------'
@@ -84,13 +84,13 @@ class ImageInfo:
 		print '----------------------'
 
 #MAKES AND RETURNS A LIST OF IMAGEINFO CLASSES OF EVERY EMOJI IN THE 'IMAGES/' DIRECTORY
-def getLittleImgs(directory):
+def getLittleImgs(directory, skip = 5):
 	littleImgs = []
 	littleImgNames = os.listdir(directory)
 	for imgName in littleImgNames:
 		imgFile = Image.open(directory + imgName).convert('RGB')
 		try:
-			imgInfo = ImageInfo(imgName, imgFile)
+			imgInfo = ImageInfo(imgName, imgFile, skip)
 			littleImgs.append(imgInfo)
 		except:
 			print 'skipping image: ' + imgName
@@ -159,7 +159,7 @@ def getFinalImg(xt, yt, xBuf, yBuf, newTiles, directory):
 	return finalImg	
 
 #GIVEN THE ORIGINAL IMAGE, SCALE, AND DEPTH (PIXEL WIDTH OF SINGLE MOSAIC TILE), THIS FUNCTION BUILDS AND SAVES THE FINAL IMAGE FROM START TO FINISH
-def makeMosaic(targetImgName, scale, depth, littleImgs, outputName, colorMap, lilImgDir):
+def makeMosaic(targetImgName, scale, depth, littleImgs, outputName, colorMap, lilImgDir, origSkip = 5):
 	print 'started: ' + outputName
 	targetImg = Image.open(targetImgName).convert('RGB')
 	if scale == 'autoScale':
@@ -189,7 +189,7 @@ def makeMosaic(targetImgName, scale, depth, littleImgs, outputName, colorMap, li
 		origTiles.append([])
 		for x in range(0, totalXSideImgs):
 			tempImg = bigTargetImg.crop((x*xn + xBuf, y*yn + yBuf, (x+1)*xn - 1 + xBuf, (y+1)*yn - 1 + yBuf))
-			origTiles[y].append(ImageInfo('tempTile', tempImg))
+			origTiles[y].append(ImageInfo('tempTile', tempImg, origSkip))
 	newTiles = getNewTiles(origTiles, littleImgs, colorMap, lilImgDir)
 	#MAKE NEW FRAME AND FILL IT OUT WITH TILES FORM NEWTILES. THIS FUNCTION RETURNS THE FINAL IMAGE
 	finalImg = getFinalImg(xt, yt, xBuf, yBuf, newTiles, lilImgDir)
@@ -321,8 +321,8 @@ def main(argv = None):
 			depth = int(args[4])
 			colorMap = {}
 
-			littleImgs = getLittleImgs(littleImgDir)
-			makeMosaic(targetImgName, scale, depth, littleImgs, outputName, colorMap, littleImgDir)
+			littleImgs = getLittleImgs(littleImgDir, skip = 1)
+			makeMosaic(targetImgName, scale, depth, littleImgs, outputName, colorMap, littleImgDir, origSkip = 1)
 			print outputName + ' saved'
 
 

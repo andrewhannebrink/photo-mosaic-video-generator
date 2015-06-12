@@ -1,0 +1,306 @@
+Sequence s (mos) 0
+	gifs randomdirs/r91/
+		30	1	500
+	gifs randomdirs/r122/
+		30	1	500
+	gifs randomdirs/r60/
+		30	1	500
+	gifs randomdirs/r98/
+		30	1	500
+	gifs randomdirs/r27/
+		30	1	500
+	gifs randomdirs/r138/
+		30	1	500
+	gifs randomdirs/r68/
+		30	1	500
+	gifs randomdirs/r131/
+		30	1	500
+	gifs randomdirs/r1/
+		30	1	500
+	gifs randomdirs/r146/
+		30	1	500
+	gifs randomdirs/r56/
+		30	1	500
+	gifs randomdirs/r26/
+		30	1	500
+	gifs randomdirs/r126/
+		30	1	500
+	gifs randomdirs/r120/
+		30	1	500
+	gifs randomdirs/r4/
+		30	1	500
+	gifs randomdirs/r83/
+		30	1	500
+	gifs randomdirs/r86/
+		30	1	500
+	gifs randomdirs/r88/
+		30	1	500
+	gifs randomdirs/r49/
+		30	1	500
+	gifs randomdirs/r90/
+		30	1	500
+	gifs randomdirs/r103/
+		30	1	500
+	gifs randomdirs/r141/
+		30	1	500
+	gifs randomdirs/r76/
+		30	1	500
+	gifs randomdirs/r107/
+		30	1	500
+	gifs randomdirs/r14/
+		30	1	500
+	gifs randomdirs/r104/
+		30	1	500
+	gifs randomdirs/r84/
+		30	1	500
+	gifs randomdirs/r112/
+		30	1	500
+	gifs randomdirs/r42/
+		30	1	500
+	gifs randomdirs/r118/
+		30	1	500
+	gifs randomdirs/r0/
+		30	1	500
+	gifs randomdirs/r3/
+		30	1	500
+	gifs randomdirs/r89/
+		30	1	500
+	gifs randomdirs/r31/
+		30	1	500
+	gifs randomdirs/r55/
+		30	1	500
+	gifs randomdirs/r123/
+		30	1	500
+	gifs randomdirs/r81/
+		30	1	500
+	gifs randomdirs/r139/
+		30	1	500
+	gifs randomdirs/r105/
+		30	1	500
+	gifs randomdirs/r33/
+		30	1	500
+	gifs randomdirs/r144/
+		30	1	500
+	gifs randomdirs/r58/
+		30	1	500
+	gifs randomdirs/r70/
+		30	1	500
+	gifs randomdirs/r43/
+		30	1	500
+	gifs randomdirs/r41/
+		30	1	500
+	gifs randomdirs/r136/
+		30	1	500
+	gifs randomdirs/r71/
+		30	1	500
+	gifs randomdirs/r72/
+		30	1	500
+	gifs randomdirs/r69/
+		30	1	500
+	gifs randomdirs/r80/
+		30	1	500
+	gifs randomdirs/r50/
+		30	1	500
+	gifs randomdirs/r51/
+		30	1	500
+	gifs randomdirs/r74/
+		30	1	500
+	gifs randomdirs/r44/
+		30	1	500
+	gifs randomdirs/r137/
+		30	1	500
+	gifs randomdirs/r115/
+		30	1	500
+	gifs randomdirs/r143/
+		30	1	500
+	gifs randomdirs/r21/
+		30	1	500
+	gifs randomdirs/r101/
+		30	1	500
+	gifs randomdirs/r140/
+		30	1	500
+	gifs randomdirs/r59/
+		30	1	500
+	gifs randomdirs/r95/
+		30	1	500
+	gifs randomdirs/r2/
+		30	1	500
+	gifs randomdirs/r18/
+		30	1	500
+	gifs randomdirs/r114/
+		30	1	500
+	gifs randomdirs/r54/
+		30	1	500
+	gifs randomdirs/r61/
+		30	1	500
+	gifs randomdirs/r124/
+		30	1	500
+	gifs randomdirs/r13/
+		30	1	500
+	gifs randomdirs/r19/
+		30	1	500
+	gifs randomdirs/r24/
+		30	1	500
+	gifs randomdirs/r128/
+		30	1	500
+	gifs randomdirs/r127/
+		30	1	500
+	gifs randomdirs/r93/
+		30	1	500
+	gifs randomdirs/r34/
+		30	1	500
+	gifs randomdirs/r111/
+		30	1	500
+	gifs randomdirs/r45/
+		30	1	500
+	gifs randomdirs/r108/
+		30	1	500
+	gifs randomdirs/r87/
+		30	1	500
+	gifs randomdirs/r35/
+		30	1	500
+	gifs randomdirs/r17/
+		30	1	500
+	gifs randomdirs/r39/
+		30	1	500
+	gifs randomdirs/r6/
+		30	1	500
+	gifs randomdirs/r23/
+		30	1	500
+	gifs randomdirs/r77/
+		30	1	500
+	gifs randomdirs/r46/
+		30	1	500
+	gifs randomdirs/r47/
+		30	1	500
+	gifs randomdirs/r109/
+		30	1	500
+	gifs randomdirs/r36/
+		30	1	500
+	gifs randomdirs/r22/
+		30	1	500
+	gifs randomdirs/r79/
+		30	1	500
+	gifs randomdirs/r64/
+		30	1	500
+	gifs randomdirs/r62/
+		30	1	500
+	gifs randomdirs/r125/
+		30	1	500
+	gifs randomdirs/r148/
+		30	1	500
+	gifs randomdirs/r30/
+		30	1	500
+	gifs randomdirs/r53/
+		30	1	500
+	gifs randomdirs/r100/
+		30	1	500
+	gifs randomdirs/r20/
+		30	1	500
+	gifs randomdirs/r67/
+		30	1	500
+	gifs randomdirs/r32/
+		30	1	500
+	gifs randomdirs/r102/
+		30	1	500
+	gifs randomdirs/r75/
+		30	1	500
+	gifs randomdirs/r10/
+		30	1	500
+	gifs randomdirs/r78/
+		30	1	500
+	gifs randomdirs/r85/
+		30	1	500
+	gifs randomdirs/r40/
+		30	1	500
+	gifs randomdirs/r116/
+		30	1	500
+	gifs randomdirs/r29/
+		30	1	500
+	gifs randomdirs/r147/
+		30	1	500
+	gifs randomdirs/r12/
+		30	1	500
+	gifs randomdirs/r117/
+		30	1	500
+	gifs randomdirs/r8/
+		30	1	500
+	gifs randomdirs/r57/
+		30	1	500
+	gifs randomdirs/r94/
+		30	1	500
+	gifs randomdirs/r135/
+		30	1	500
+	gifs randomdirs/r38/
+		30	1	500
+	gifs randomdirs/r82/
+		30	1	500
+	gifs randomdirs/r25/
+		30	1	500
+	gifs randomdirs/r52/
+		30	1	500
+	gifs randomdirs/r119/
+		30	1	500
+	gifs randomdirs/r63/
+		30	1	500
+	gifs randomdirs/r96/
+		30	1	500
+	gifs randomdirs/r15/
+		30	1	500
+	gifs randomdirs/r9/
+		30	1	500
+	gifs randomdirs/r97/
+		30	1	500
+	gifs randomdirs/r28/
+		30	1	500
+	gifs randomdirs/r121/
+		30	1	500
+	gifs randomdirs/r130/
+		30	1	500
+	gifs randomdirs/r110/
+		30	1	500
+	gifs randomdirs/r16/
+		30	1	500
+	gifs randomdirs/r66/
+		30	1	500
+	gifs randomdirs/r73/
+		30	1	500
+	gifs randomdirs/r149/
+		30	1	500
+	gifs randomdirs/r48/
+		30	1	500
+	gifs randomdirs/r7/
+		30	1	500
+	gifs randomdirs/r145/
+		30	1	500
+	gifs randomdirs/r113/
+		30	1	500
+	gifs randomdirs/r37/
+		30	1	500
+	gifs randomdirs/r5/
+		30	1	500
+	gifs randomdirs/r99/
+		30	1	500
+	gifs randomdirs/r11/
+		30	1	500
+	gifs randomdirs/r92/
+		30	1	500
+	gifs randomdirs/r129/
+		30	1	500
+	gifs randomdirs/r65/
+		30	1	500
+	gifs randomdirs/r134/
+		30	1	500
+	gifs randomdirs/r142/
+		30	1	500
+	gifs randomdirs/r106/
+		30	1	500
+	gifs randomdirs/r132/
+		30	1	500
+	gifs randomdirs/r133/
+		30	1	500
+endSeq
+
+makeAnim
+s
+endAnim

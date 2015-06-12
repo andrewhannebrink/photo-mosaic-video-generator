@@ -1,0 +1,35 @@
+Sequence seq0 (spec) emoji/w 0
+	(240, 190, 255) (240, 190, 255) 3
+		shift
+			28	1	8
+	(240, 190, 255) (240, 190, 255) 3
+endSeq
+
+Sequence seq2 (spec) emoji/w 0
+	(197, 255, 140) (197, 255, 140) 3
+		shift
+			28	1	8
+	(197, 255, 140) (197, 255, 140) 3
+endSeq
+
+Sequence seq4 (spec) emoji/w 0
+	(170, 255, 140) (170, 255, 140) 3
+		shift
+			14	1	8
+	(255, 255, 255) (255, 255, 255) 3
+		shift
+			14	1	8
+	(255, 255, 255) (255, 255, 255) 3
+endSeq
+
+Sequence seq6 (mos) 0
+	shift gem/
+		28	1	8
+endSeq
+
+makeAnim
+seq0
+seq2
+seq6
+seq4
+endAnim

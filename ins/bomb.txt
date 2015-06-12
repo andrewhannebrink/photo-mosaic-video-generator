@@ -1,0 +1,16 @@
+Sequence seq1 (mos)
+	bomb emoji/
+		50	1	10	
+	whex emoji/
+		50	1	10	
+	blocks emoji/
+		50	1	10	
+	squares emoji/
+		50	1	10	
+endSeq
+
+makeAnim
+	seq1
+	seq1
+	seq1
+endAnim

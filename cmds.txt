@@ -18,3 +18,6 @@ ffmpeg -ss 00:00:10.00 -t 00:00:20.00 -i test1.MP4 -r 30.0 test2.MP4
 # slow down test1.MP4 by a factor of 2, and save it as slow.MP4 
 ffmpeg -i test1.MP4 -filter:v "setpts=2.0*PTS" slow.MP4
 
+# Add music to video
+ffmpeg -i bemoji2.mp4 -i bemoji.mp3 -c copy -map 0 -map 1 -shortest bemoji2f.mp4
+

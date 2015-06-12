@@ -1,0 +1,32 @@
+Sequence face3 (mos) 56
+	face emoji/
+		28	1	6	80
+endSeq
+
+Sequence tun0 (mos) 0
+	tun1 orange/
+		28	1	80	0
+	tun1 animal/
+		28	1	0
+	tun1 animal/
+		7	1	0	25
+		7	1	25	0
+	tun1 alt/
+		14	1	0
+	tun1 alt/
+		7	1	0	25
+		7	1	25	0
+	tun1 plants/
+		14	1	0
+endSeq
+
+makeAnim
+face3
+tun0
+face3
+tun0
+face3
+tun0
+face3
+tun0
+endAnim

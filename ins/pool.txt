@@ -1,0 +1,13 @@
+Sequence s (mos) 1
+	poolvhhslow emoji/
+		50	1	9	1	
+		50	1	1	12
+		50	1	12	1
+		50	1	1	15	
+		50	1	15	1
+		50	1	1	9
+endSeq
+
+makeAnim
+s
+endAnim

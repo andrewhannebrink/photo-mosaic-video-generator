@@ -1,0 +1,33 @@
+Sequence tun0 (mos) 0
+		7	1	80	35
+	tun1 orange/
+		7	1	35	0
+	tun1 orange/
+		14	1	0
+	tun1 orange/
+		7	1	0	35
+	tun0 orange/
+		7	1	35	0
+	tun0 icon/
+		14	1	0
+	tun0 icon/
+		7	1	0	35
+	tun5 icon/
+		7	1	35	0
+	tun5 icon2/
+		14	1	0
+endSeq
+
+Sequence tun1 (mos) 112
+	tun5 icon2/
+		7	1	0	35
+	tun4 icon2/
+		7	1	35	15
+	tun4 hands/
+		14	1	15
+endSeq
+	
+makeAnim
+tun0
+tun1
+endAnim

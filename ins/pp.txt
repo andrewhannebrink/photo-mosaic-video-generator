@@ -1,0 +1,156 @@
+Sequence seq0 (spec) emoji/w 0
+	(240, 190, 255) (240, 190, 255) 3
+		shift
+			28	1	8
+	(240, 190, 255) (240, 190, 255) 3
+endSeq
+
+Sequence seq2 (spec) emoji/w 0
+	(197, 255, 140) (197, 255, 140) 3
+		shift
+			28	1	8
+	(255, 255, 255) (255, 255, 255) 3
+endSeq
+
+Sequence seq4 (spec) emoji/w 0
+	(170, 255, 140) (170, 255, 140) 3
+		shift
+			28	1	8
+	(170, 255, 140) (170, 255, 140) 3
+endSeq
+
+Sequence seq6 (mos) 0
+	shift gem/
+		28	1	8
+endSeq
+
+#Sequence ppl (mos) 0 
+#	ppl emoji/
+#		100	1	2
+#endSeq
+
+#Sequence cos (spec) emoji/
+#	(240, 200, 255) (240, 200, 255) 15
+#		costanza
+#			28	 1	  12	0
+#	(200, 255, 200) (0, 0, 0) 15
+#		costanza
+#			28	 1	  0
+#	(150, 255, 255) (0, 0, 0) 15
+#		costanza
+#			28	 1	  0	20	 
+#	(150, 255, 255) (0, 0, 0) 15
+#		costanza
+#			28	1	20
+#	(255, 255, 200) (255, 255, 200) 15
+#endSeq
+
+#	(255, 255, 155) (0, 0, 0) 15
+
+#	tunnel2
+#			15	1	0	60
+#	(255, 147, 255) (255, 107, 14) 5
+#		tunnel
+#			15	1	60	0
+#		tunnel
+#			10	1	0
+#		tunnel
+#			15	1	0	80
+#	(0, 255, 150) (255, 0, 130) 5
+#		tunnel
+#			15	1	80	0
+#		tunnel2
+#			5	1	0	0
+#		tunnel
+#			5	1	0	0
+#		tunnel2
+#			5	1	0	0
+#		tunnel
+#			5	1	0	0
+#		tunnel2	
+#			5	1	0	20
+#	(255, 255, 255) (255, 255, 100) 5
+#endSeq
+			
+#Sequence seq1 (mos) 
+#	tunnel flags/ 
+#		10      1       19      4 
+#	tunnel flags/
+#		20      1       4 
+#	tunnel smilies/ 
+#		10      1       4       19
+#endSeq
+#
+#Sequence seq2 (mos)
+#	tunnel2 smilies/
+#		10      1       19      4
+#	tunnel2 smilies/
+#		20      1       4
+#	tunnel2 plants/
+#		10      1       4       19
+#endSeq
+#
+#Sequence seq3 (mos)
+#	tunnel3 plants/
+#		10	1	19	4
+#	tunnel3 plants/
+#		20	1	4
+#	tunnel3 buildings/
+#		10	1	4	19
+#endSeq
+#
+#Sequence seq4 (mos)
+#	square2 buildings/
+#		10	1	19	4
+#	square2 buildings/
+#		20	1	4
+#	square2 icons/
+#		10	1	4	19
+#endSeq
+#
+#Sequence seq5 (mos)
+#	square3 icons/
+#		10	1	19	4
+#	square3 icons/
+#		20	1	4
+#	square3 fruit/
+#		10	1	4	19
+#endSeq
+#
+#Sequence seq6 (mos)
+#	balls fruit/
+#		10	1	19	4
+#	balls fruit/
+#		20	1	4
+#	balls animalmini2/
+#		10	1	4	19
+#endSeq
+#
+#Sequence seq7 (mos)
+#	square animalmini2/
+#		10	1	19	4
+#	square animalmini2/
+#		20	1	4
+#	square sketch/
+#		10	1	4	19
+#endSeq
+#
+#Sequence seq8 (mos)
+#	kaleido sketch/
+#		10	1	19	4
+#	kaleido sketch/
+#		20	1	4
+#	kaleido flags/
+#		10	1	4	19
+#endSeq
+
+makeAnim
+seq0
+seq2
+seq4
+seq6
+seq0
+seq2
+seq4
+seq6
+endAnim

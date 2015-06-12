@@ -1,0 +1,24 @@
+Sequence ppl (mos) 0
+	ppl emoji/
+		28	1	6
+endSeq
+
+makeAnim
+ppl
+ppl
+ppl
+ppl
+ppl
+ppl
+ppl
+ppl
+ppl
+ppl
+ppl
+ppl
+ppl
+ppl
+ppl
+ppl
+endAnim
+	
