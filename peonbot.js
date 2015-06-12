@@ -48,18 +48,20 @@ Bot.prototype.emojiSpam = function(callback) {
       /*console.log(tweet.user.screen_name);
       console.log(tweet.text);
       console.log(tweet.entities.media);*/
-      if (tweet.entities.media.length === 1 && tweet.entities.media[0].type === 'photo' && tweet.user.followers_count >= 1000) {
-        if (thisbot.spamLock === false) {
-          console.log('spam lock now true');
-          thisbot.spamLock = true;
-          var screen_name = tweet.user.screen_name;
-          console.log('downloading pic');
-          thisbot.DlPic(tweet.entities.media[0].media_url, thisbot.convertRemojiTweet(screen_name));
-          //spamLock helps this bot from spamming too often
-          setTimeout(function() {
-            thisbot.spamLock = false;
-            console.log('spamLock now false');
-          }, 180000);
+      if (tweet.entities.media.length === 1 && tweet.entities.media[0].type === 'photo')
+        if (tweet.user.followers_count >= 420 && tweet.user.followers_count < 5000) {
+          if (thisbot.spamLock === false) {
+            console.log('spam lock now true');
+            thisbot.spamLock = true;
+            var screen_name = tweet.user.screen_name;
+            console.log('downloading pic');
+            thisbot.DlPic(tweet.entities.media[0].media_url, thisbot.convertRemojiTweet(screen_name));
+            //spamLock helps this bot from spamming too often
+            setTimeout(function() {
+              thisbot.spamLock = false;
+              console.log('spamLock now false');
+            }, 180000);
+          }
         }
       }
     }
