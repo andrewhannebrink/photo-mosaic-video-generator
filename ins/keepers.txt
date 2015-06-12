@@ -1,0 +1,66 @@
+#dbDir          length  speed   sRes    eRes
+#
+db	t2mos/		10      1       0       19 
+db	t2mos/ 		10	1	19	0
+db	pt1mos/          20      1       0     
+#
+db	pt1mos/         10      1       0       19 
+db	pt2mos/	      	10	1	19	0
+db	t3mos/		20	1	0
+#
+db	t3mos/         10      1       0       19 
+db	t4mos/	 	10	1	19	0
+db	t4mos/		20	1	0
+#
+#
+db	t4mos/          10      1       0       19 
+db	s3mos/	      	10	1	19	0
+db	s3mos/          20      1       0     
+#
+db	s3mos/          10      1       0       19 
+db	s4mos/	      	10	1	19	0
+db	s4mos/          20      1       0 
+#
+db	s4mos/          10      1       0       19 
+db	smos/	      	10	1	19	0
+db	smos/           20      1       0     
+#
+db	smos/		10	1	0	19
+db	pbmos/		10	1	19	0
+db	pbmos/		20	1	0
+#
+db	pbmos/		10	1	0	19
+db	pkmos/		10	1	19	0
+db	pkmos/		20	1	0
+#
+db	pkmos/          10      1       0       19 
+db	t2mos/	      	10	1	19	0
+db	t2mos/         	20      1       0     
+#
+db	t2mos/          10      1       0       19 
+db	t3mos/	      	10	1	19	0
+db	t3mos/         	20      1       0     
+#
+db	t3mos/          10      1       0       19 
+db	t4mos/		10	1	19	0
+db	t4mos/		20	1	0
+#
+db	t4mos/          10      1       0       19 
+db	s3mos/	      	10	1	19	0
+db	s3mos/         	20      1       0     
+#
+db	s3mos/          10      1       0       19 
+db	s4mos/	      	10	1	19	0
+db	s4mos/         	20      1       0     
+#
+db	s4mos/         10      1       0       19 
+db	smos/	      	10	1	19	0
+db	smos/         	20      1       0     
+#
+db	smos/		10	1	0	19
+db	bmos/		10	1	19	0
+db	bmos/		20	1	0
+#
+db	bmos/		10	1	0	19
+db	k2mos/		10	1	19	0
+db	k2mos/		20	1	0

@@ -1,0 +1,55 @@
+Sequence tun0 (mos) 0
+		7	1	80	25
+	tun1 orange/
+		7	1	25	0
+	tun1 orange/
+		14	1	0
+	tun1 orange/
+		7	1	0	25
+		7	1	25	0
+	tun1 animal/
+		14	1	0
+	tun1 animal/
+		7	1	0	25
+		7	1	25	0
+	tun1 icon/
+		14	1	0
+	tun1 icon/
+		7	1	0	25
+	wave icon/
+		7	1	25	0
+	wave happy/
+		14	1	0
+endSeq
+
+Sequence tun1 (mos) 112
+	wave happy/
+		7	1	0	25
+	tun0 happy/
+		7	1	25	0
+	tun0 alt/
+		14	1	0
+	tun0 alt/
+		7	1	0	25
+	tun5 alt/
+		7	1	25	0
+	tun5 icon2/
+		14	1	0
+	tun5 icon2/
+		7	1	0	25
+	tun2 icon2/
+		7	1	25	0
+	tun2 hands/
+		14	1	0
+	tun2 hands/
+		7	1	0	25
+	tun4 hands/
+		7	1	25	15
+	tun4 hands/
+		14	1	15
+endSeq
+	
+makeAnim
+tun0
+tun1
+endAnim

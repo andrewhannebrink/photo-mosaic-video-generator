@@ -1,0 +1,50 @@
+#dbDir		name		length	speed	sRes	eRes
+kammos/		kaleido		50	1	0	10
+kammos/		kaleido		50	1	10	0
+kammos/		kaleido		50	1	0	10
+kammos/		kaleido		50	1	10	0
+kammos/		kaleido		50	1	0	10
+kammos/		kaleido		50	1	10	0
+kammos/		kaleido		50	1	0	10
+kammos/		kaleido		50	1	10	0
+kammos/		kaleido		50	1	0	10
+kammos/		kaleido		50	1	10	0
+kammos/		kaleido		50	1	0	10
+kammos/		kaleido		50	1	10	0
+kammos/		kaleido		50	1	0	10
+kammos/		kaleido		50	1	10	0
+kammos/		kaleido		50	1	0	10
+#limos/		lips		2	1	19	0
+#limos/		lips		1	1	0
+#limos/		lips		2	1	0	19
+#limos/		lips		2	1	19	0
+#limos/		lips		1	1	0
+#limos/		lips		2	1	0	19
+#limos/		lips		2	1	19	0
+#limos/		lips		1	1	0
+#limos/		lips		2	1	0	19
+#limos/		lips		2	1	19	0
+#limos/		lips		1	1	0
+#limos/		lips		2	1	0	19
+#wmos/		kaleido			4	1	19	
+#wmos/		kaleido			6	1	19	0
+#wmos/		kaleido			6	1	0
+#wmos/		kaleido			6	1	0	19
+#wmos/		kaleido			4	1	19
+#kmos/		kaleido		3	1	19	0 
+#kmos/		kaleido		2	1	0
+#kmos/		kaleido		3	1	0	19 
+#kmos/		kaleido		3	1	19	0 
+#kmos/		kaleido		3	1	0	8 
+#kmos/		kaleido		3	1	8	0 
+#kmos/		kaleido		3	1	0	8 
+#kmos/		kaleido		3	1	8	0 
+#kmos/		kaleido		3	1	0	8 
+#kmos/		kaleido		3	1	8	0 
+#kmos/		kaleido		3	1	0	8 
+#kmos/		kaleido		3	1	8	0 
+#kmos/		kaleido		3	1	0	8 
+#kmos/		kaleido		3	1	8	0 
+#kmos/		kaleido		3	1	0	8 
+#kmos/		kaleido		3	1	8	0 
+#kmos/		kaleido		3	1	0	19 

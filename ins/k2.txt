@@ -1,0 +1,8 @@
+Sequence k0 (mos) 0
+	kal5 win/
+		108	4	22
+endSeq
+
+makeAnim
+k0
+endAnim
