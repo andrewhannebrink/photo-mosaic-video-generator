@@ -15,11 +15,15 @@ function datestring () {
 
 setInterval(function() {
   bot.randRemoji();
-}, 420000);
+}, 360000);
 
 bot.emojiSpam(function(err, reply) {
   if (err) return handleError(err);
 });
+
+//console.log('emojiWiki: ' + bot.emojiWiki);
+//console.log(typeof bot.emojiWiki);
+//console.log(bot.emojiWiki[30]);
 
 function handleError(err) {
   console.error('response status:', err.statusCode);

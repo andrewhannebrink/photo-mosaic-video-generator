@@ -10,7 +10,32 @@ var exec = require('child_process').exec;
 
 var Bot = module.exports = function(config) { 
   this.twit = new Twit(config);
+  this.emojiWiki = fs.readFileSync('./public/emojiWiki.txt', 'utf8');
+  this.emojiWiki = modifyEmojiWiki(this.emojiWiki)
 };
+
+var modifyEmojiWiki = function(emojiText) {
+  var regex = /\./gi, result, indices = [];
+  while ( (result = regex.exec(emojiText)) ) {
+    indices.push(result.index);
+  };
+  var sentences = [];
+  for (var i = 0; i < indices.length - 1; i++) {
+    var distance = indices[i+1] - indices[i];
+    if (distance > 100) {
+      var sentence = emojiText.substring(indices[i] + 1, indices[i] + 100)
+    } else {
+      var sentence = emojiText.substring(indices[i] + 1, indices[i] + distance);
+    }
+    sentences.push(sentence);
+  }
+  /*console.log(sentences);
+  for (var i = 0; i < sentences.length; i++) {
+    console.log(sentences[i].length);
+  };*/
+  return sentences;
+};
+  
 // make childproc belong to bot to avoid memory leak
 Bot.prototype.childProc;
 Bot.prototype.spamLock = false;
@@ -64,9 +89,8 @@ Bot.prototype.emojiSpam = function(callback) {
           }
         }
       }
-    }
-    //console.log(tweet);
-    console.log('====================================================');
+      var debugProgStr = ((Math.random()<.5) ? '' : '=');
+      console.log('======================================' + debugProgStr);
   });
 };
 
@@ -140,7 +164,7 @@ Bot.prototype.randRemoji = function () {
     }
     else {
       var file = bigImgDir + randIndex(files);
-      var text = 'i do it for @tiny_icon';
+      var text = randIndex(thisbot.emojiWiki) + ' @tiny_icon';
       thisbot.remoji(lilImgDir, scale, reso, file, text);
     }
   });
@@ -150,5 +174,3 @@ function randIndex (arr) {
   var index = Math.floor(arr.length*Math.random());
   return arr[index];
 };
-
-
