@@ -4,8 +4,8 @@ import os
 import sys
 import getopt
 import math
-from PIL import Image
-import ImageDraw
+from PIL import Image, ImageDraw
+#import ImageDraw
 import movieMaker
 from multiprocessing import Process, Pool
 import time
