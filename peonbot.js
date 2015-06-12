@@ -48,17 +48,18 @@ Bot.prototype.emojiSpam = function(callback) {
       /*console.log(tweet.user.screen_name);
       console.log(tweet.text);
       console.log(tweet.entities.media);*/
-      if (tweet.entities.media.length === 1 && tweet.entities.media[0].type === 'photo') {
+      if (tweet.entities.media.length === 1 && tweet.entities.media[0].type === 'photo' && tweet.user.followers_count >= 1000) {
         if (thisbot.spamLock === false) {
           console.log('spam lock now true');
           thisbot.spamLock = true;
           var screen_name = tweet.user.screen_name;
           console.log('downloading pic');
           thisbot.DlPic(tweet.entities.media[0].media_url, thisbot.convertRemojiTweet(screen_name));
+          //spamLock helps this bot from spamming too often
           setTimeout(function() {
             thisbot.spamLock = false;
             console.log('spamLock now false');
-          }, 480000);
+          }, 180000);
         }
       }
     }
@@ -77,7 +78,7 @@ Bot.prototype.DlPic = function(url, callback) {
 
 Bot.prototype.convertRemojiTweet = function(screen_name) {
   var thisbot = this;
-  var text = 'what about emojis? @' + screen_name + ' @tiny_icon - drag drop cut paste click play vimeo.com/tinyicon';
+  var text = '@' + screen_name + ' what about emojis? https://vimeo.com/125338493 @tiny_icon';
   setTimeout(function() {
     thisbot.childProc = exec('convert public/downloaded.jpg public/downloaded.png', function(error, stdout, stderr) {
       console.log('stdout: ' + stdout);

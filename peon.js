@@ -15,7 +15,7 @@ function datestring () {
 
 setInterval(function() {
   bot.randRemoji();
-}, 480000);
+}, 420000);
 
 bot.emojiSpam(function(err, reply) {
   if (err) return handleError(err);
