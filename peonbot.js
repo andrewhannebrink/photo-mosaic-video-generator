@@ -211,7 +211,7 @@ Bot.prototype.randRemoji = function () {
 var wordScramble = function(emojiText) {
   var emojiText = emojiText.replace(/\sthe\s/g, randIndex([' his ', ' her ']));
   emojiText = emojiText.replace(/\sThe\s/g, randIndex([' His ', ' Her ']));
-  emojiText = emojiText.replace(/\sand\s/g, 'but not');
+  emojiText = emojiText.replace(/\sand\s/g, ' but not ');
   return emojiText;
 };
 
