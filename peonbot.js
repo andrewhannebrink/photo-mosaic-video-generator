@@ -12,6 +12,32 @@ var Bot = module.exports = function(config) {
   this.twit = new Twit(config);
   this.emojiWiki = fs.readFileSync('./public/emojiWiki.txt', 'utf8');
   this.emojiWiki = modifyEmojiWiki(this.emojiWiki)
+  this.genericReplies = ['What did you say about emojis?',
+    'Whose emojis are those?',
+    'Looking good!',
+    'Big emojis',
+    'Small emojis',
+    'Free emoji service, here!',
+    'Wasn\'t that emoji supposed to be over here?',
+    'I saw multiple emojis in that picture',
+    'Gigabytes of digital emojis',
+    'I agree #emoji',
+    'You\'re doing great! Keep it up!',
+    'You\'re the best :-)',
+    'Fantastic! Don\'t forget to tell your friends',
+    'That\'s super mega chill',
+    'Massive emoji power moves',
+    'Doing great, keep up the stunning work!',
+    'You are an allstar. 400 emojis can be retweeted.',
+    'Emojis for a peaceful world.',
+    'THAT IS COOL !!!!1!',
+    'Im your biggest fan, 1337 emojis',
+    'Im your biggest fan.',
+    'Lets emojify the pictures. Youre up now!',
+    'Silly emojis. Pixels are for kids.',
+    'Digital emojis. There it is.',
+    'International. Please join.'];
+    
 };
 
 // make childproc belong to bot to avoid memory leak
@@ -88,7 +114,7 @@ Bot.prototype.emojiSpam = function(callback) {
             setTimeout(function() {
               thisbot.spamLock = false;
               console.log('spamLock now false');
-            }, 195000);
+            }, 210000);
           }
         //}
       var debugProgStr = ((Math.random()<.5) ? '' : '=');
@@ -109,7 +135,7 @@ Bot.prototype.DlPic = function(url, callback) {
 //function for replying to tweets with a remojified twitpic
 Bot.prototype.convertRemojiTweet = function(tweet) {
   var thisbot = this;
-  var text = '@' + tweet.user.screen_name + ' what about emojis? https://vimeo.com/125338493 @tiny_icon';
+  var text = '@' + tweet.user.screen_name + ' ' + randIndex(thisbot.genericReplies) + ' https://vimeo.com/125338493 @tiny_icon';
   setTimeout(function() {
     thisbot.childProc = exec('convert public/downloaded.jpg public/downloaded.png', function(error, stdout, stderr) {
       console.log('stdout: ' + stdout);
