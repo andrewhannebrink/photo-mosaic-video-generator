@@ -21,9 +21,9 @@ bot.emojiSpam(function(err, reply) {
   if (err) return handleError(err);
 });
 
-/*bot.givePics(function(err, reply) {
+bot.givePics(function(err, reply) {
   if (err) return handleError(err);
-});*/
+});
 
 //console.log('emojiWiki: ' + bot.emojiWiki);
 //console.log(typeof bot.emojiWiki);
