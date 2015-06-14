@@ -61,7 +61,7 @@ Bot.prototype.givePics = function(callback) {
           console.log('givePicksLock now true');
           console.log('DOWNLOADING pic to GIVE BACK');
           var tempFile = 'givePic';
-          var text = '@' + tweet.user.screen_name + ' tweet me a photo. seconds later you will be emojis\n\n[brought to you by @tiny_icon]';
+          var text = '@' + tweet.user.screen_name + ' tweet me a photo. seconds later you will be emojis\n\n[by @tiny_icon] [vimeo.com/tinyicon]';
           thisbot.DlPic(tweet.entities.media[0].media_url, tempFile, thisbot.convertRemojiTweet(tweet, tempFile, text));
           setTimeout(function() {
             thisbot.givePicsLock = false;
@@ -90,14 +90,14 @@ Bot.prototype.emojiSpam = function(callback) {
             thisbot.spamLock = true;
             console.log('downloading pic');
             var tempFile = 'downloaded';
-            var text = '@' + tweet.user.screen_name + ' ' + randIndex(thisbot.replies.emoji) + ' https://vimeo.com/125338493 @tiny_icon';
+            var text = '@' + tweet.user.screen_name + ' ' + randIndex(thisbot.replies.tellToGive) + ' follow @tiny_icon + vimeo.com/125338493';
             thisbot.DlPic(tweet.entities.media[0].media_url, tempFile, thisbot.convertRemojiTweet(tweet, tempFile, text));
             //spamLock helps this bot from spamming too often
             setTimeout(function() {
               thisbot.spamLock = false;
               thisbot.givePicsLock = false;
               console.log('spamLock now false');
-            }, 210000);
+            }, 120000);
         }
         var debugProgStr = ((Math.random()<.5) ? '' : '=');
         console.log('======================================' + debugProgStr);
@@ -121,7 +121,7 @@ Bot.prototype.convertRemojiTweet = function(tweet, tempFile, text) {
     thisbot.childProc = exec('convert public/'+tempFile+'.jpg public/'+tempFile+'.png', function(error, stdout, stderr) {
       console.log('stdout: ' + stdout);
       console.log('stderr: ' + stderr);
-      thisbot.remoji('emoji/', 1, 8, 'public/'+tempFile+'.png', text, tweet);
+      thisbot.remoji('emoji/', 1, 10, 'public/'+tempFile+'.png', text, tweet);
     });
   }, 5000);
 };
