@@ -61,7 +61,7 @@ Bot.prototype.givePics = function(callback) {
           console.log('givePicksLock now true');
           console.log('DOWNLOADING pic to GIVE BACK');
           var tempFile = 'givePic';
-          var text = '@' + tweet.user.screen_name + ' tweet me a photo, i\'ll emojify it and send it to you in seconds\n\n[brought to you by @tiny_icon]';
+          var text = '@' + tweet.user.screen_name + ' tweet me a photo. seconds later you will be emojis\n\n[brought to you by @tiny_icon]';
           thisbot.DlPic(tweet.entities.media[0].media_url, tempFile, thisbot.convertRemojiTweet(tweet, tempFile, text));
           setTimeout(function() {
             thisbot.givePicsLock = false;
