@@ -55,7 +55,7 @@ Bot.prototype.givePics = function(callback) {
         return;
       });
     } else {
-      if (tweet.entities.hasOwnProperty('media')) {
+      if (tweet.entities.hasOwnProperty('media') && tweet.user.screen_name !== 'tiny_peon') {
         if (tweet.entities.media.length === 1 && tweet.entities.media[0].type === 'photo') {
           thisbot.givePicsLock = true;
           console.log('givePicksLock now true');
@@ -98,10 +98,9 @@ Bot.prototype.emojiSpam = function(callback) {
               thisbot.givePicsLock = false;
               console.log('spamLock now false');
             }, 210000);
-          //}
+        }
         var debugProgStr = ((Math.random()<.5) ? '' : '=');
         console.log('======================================' + debugProgStr);
-        }
       }
     }
   });
