@@ -16,6 +16,9 @@ def connectImgs(img1, img2, scale1, buf = (0, 0), w = False):
    new.paste(white, (0, 0))
    new.paste(img2, (h2, 0))
    (nw, nh) = new.size
+   scale = 0.9
+   (nw, nh) = (int(nw*scale), int(nh*scale))
+   new = new.resize((nw, nh), Image.ANTIALIAS)
    ctrbuf = (1920/2 - nw/2, 1080/2 - nh/2)
    frameImg = Image.new('RGB', (1920, 1080), (255,255,255)) 
    frameImg.paste(new, ctrbuf)
@@ -55,13 +58,13 @@ def makeScrollAnim(frames, speed, imgs, textImg, opdir = 'logomov/'):
          i += 1
    return i
 
-def makeBlinkAnim(frames, finalImg, textImg, frame, blinkSpeed = 40, opdir = 'logomov/'):
+def makeBlinkAnim(frames, finalImg, textImg, frame, blinkSpeed = 50, opdir = 'logomov/'):
    i = frame
    on = connectImgs(finalImg, textImg, 3.6, (18, 30))
    off = connectImgs(finalImg, textImg, 3.6, buf = (18, 30), w = True)
    while i <= frame + frames:
       for s in range(blinkSpeed):
-         if ((s-frame) % blinkSpeed) < (blinkSpeed/2):
+         if ((i-frame) % blinkSpeed) < (blinkSpeed/2): # or (i-frame < blinkSpeed:
             img = on
          else:
             img = off
@@ -72,11 +75,11 @@ def makeBlinkAnim(frames, finalImg, textImg, frame, blinkSpeed = 40, opdir = 'lo
 
 def main():
    scrollFrames = 60
-   blinkFrames = 160
+   blinkFrames = 150
    speed = 1
    textImg = 'tiny_icon2.png'
    imgDir = '/home/brink/photo-mosaic-video-generator/win/'
-   finalImg = '/home/brink/photo-mosaic-video-generator/win/inetwiz_100-0.png'
+   finalImg = '/home/brink/photo-mosaic-video-generator/win/mspaint_2-0.png'
    textImg = Image.open(textImg).convert('RGBA')
    finalImg = Image.open(finalImg).convert('RGBA')
    lilImgs = []
