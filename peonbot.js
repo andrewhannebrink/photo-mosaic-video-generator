@@ -49,7 +49,7 @@ Bot.prototype.givePics = function(callback) {
   var stream = this.twit.stream('statuses/filter', { track: '@tiny_peon' });
   stream.on('tweet', function(tweet) {
     if (thisbot.givePicsLock === true) {
-      var status = '@' + tweet.user.screen_name + ' oops something went wrong...try again';
+      var status = '@' + tweet.user.screen_name + ' oops, something went wrong... try again';
       console.log('givePicsLock BLOCKED HERE ');
       thisbot.twit.post('statuses/update', { status: status }, function() {
         return;
@@ -61,7 +61,12 @@ Bot.prototype.givePics = function(callback) {
           console.log('givePicksLock now true');
           console.log('DOWNLOADING pic to GIVE BACK');
           var tempFile = 'givePic';
-          var text = '@' + tweet.user.screen_name + ' tweet me a photo. seconds later you will be emojis\n\n[by @tiny_icon] [vimeo.com/tinyicon]';
+          var ranbin = randIndex([0, 1]);
+          if (ranbin === 0) {
+            var text = '@' + tweet.user.screen_name + ' ' + randIndex(thisbot.replies.tellToGive) +'\n\n'+ randIndex(thisbot.replies.kaomoji)+' [by @tiny_icon]';
+          } else {
+            var text = '@' + tweet.user.screen_name + ' ' + randIndex(thisbot.replies.tellToGive) +'\n\n[by @tiny_icon][vimeo.com/125338493]';
+          }
           thisbot.DlPic(tweet.entities.media[0].media_url, tempFile, thisbot.convertRemojiTweet(tweet, tempFile, text));
           setTimeout(function() {
             thisbot.givePicsLock = false;
@@ -90,7 +95,7 @@ Bot.prototype.emojiSpam = function(callback) {
             thisbot.spamLock = true;
             console.log('downloading pic');
             var tempFile = 'downloaded';
-            var text = '@' + tweet.user.screen_name + ' ' + randIndex(thisbot.replies.tellToGive) + ' follow @tiny_icon + vimeo.com/125338493';
+            var text = '@' + tweet.user.screen_name + ' ' + randIndex(thisbot.replies.tellToGive) + ' by @tiny_icon';
             thisbot.DlPic(tweet.entities.media[0].media_url, tempFile, thisbot.convertRemojiTweet(tweet, tempFile, text));
             //spamLock helps this bot from spamming too often
             setTimeout(function() {
@@ -183,7 +188,8 @@ Bot.prototype.randRemoji = function () {
       }
       else {
         var file = bigImgDir + randIndex(files);
-        var text = wordScramble(randIndex(thisbot.emojiWiki)) + ' @tiny_icon';
+        //var text = wordScramble(randIndex(thisbot.emojiWiki)) + ' @tiny_icon';
+        var text = '(✤❛⃘ͫ Ʉ̮ ❛⃘ͫ)';
         var tweet2Reply2 = null;
         thisbot.remoji(lilImgDir, scale, reso, file, text, tweet2Reply2);
       }

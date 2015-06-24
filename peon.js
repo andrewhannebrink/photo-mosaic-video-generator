@@ -13,13 +13,15 @@ function datestring () {
      +   d.getDate();
 };
 
-setInterval(function() {
+/*setInterval(function() {
   bot.randRemoji();
-}, 600000);
+}, 1800000);*/
 
-bot.emojiSpam(function(err, reply) {
+/*bot.emojiSpam(function(err, reply) {
   if (err) return handleError(err);
-});
+});*/
+
+//bot.randRemoji();
 
 bot.givePics(function(err, reply) {
   if (err) return handleError(err);
