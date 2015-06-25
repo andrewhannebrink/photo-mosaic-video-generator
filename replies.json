@@ -133,7 +133,6 @@
     "secret emojis",
     "hidden emojis",
     "emoji pics",
-    "sweet sauce",
     "this",
     "emoji pics",
     "mini emoji pics",
@@ -147,12 +146,11 @@
     "picture pics",
     "these cookies",
     "1337 hacks",
-    "holographic swag",
     "this big swag",
     "swag upgrade",
     "advanced swag",
     "1337 skills",
-    "pictures",
+    "emoji pictures",
     "pictographic emojis",
     "emoji racks",
     "emoji stacks",
@@ -161,6 +159,7 @@
     "the freshest",
     "twitter cred",
     "internet clout",
+    "internet win",
     "pics",
     "emoji photos",
     "photo-mosaics",
@@ -168,20 +167,23 @@
     "these",
     "emojification",
     "twitter cheat codes",
-    "these swagmoji pics"
+    "these emoji pics"
   ],
   "mes": [
     " tweet me for ",
     " get at me for ",
     " hit me up for ",
     " holler at me for ",
-    " hmu for",
+    " hmu for ",
     " message me for ",
     " tweet me, i do ",
     " tweet me, then...",
-    " tweet me...seconds later..."
+    " tweet me...seconds later...",
+    " tweet me pics. i give back "
   ],
   "tags": [
+    "#holographicswag",
+    "anyone can do it",
     "#secretfire",
     "#emoji",
     "tweet to me",
@@ -189,6 +191,10 @@
     "you can be next",
     "tweet me pics",
     "#easteregg",
-    "#hiddenfuego"
+    "#hiddenfuego",
+    "#tooturnt",
+    "any time",
+    "only takes seconds",
+    "in seconds"
   ]
 }

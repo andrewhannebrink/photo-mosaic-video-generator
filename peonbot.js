@@ -174,18 +174,24 @@ Bot.prototype.givePics = function(collect, callback) {
 };
 
 Bot.prototype.makeText = function(tweet) {
-  /*var ranbin = randIndex([0, 1]);
-  if (ranbin === 0) {
-    var text = '@' + tweet.user.screen_name + ' ' + randIndex(this.replies.tellToGive) +'\n\n'+ randIndex(this.replies.kaomoji)+' [by @tiny_icon]';
+  var text = ''
+  var picker = Math.random();
+  if (picker < 0.4) {
+    text = '@' + tweet.user.screen_name + ' ' + randIndex(this.replies.kaomoji); 
+    var ranbin = randIndex([0, 1]);
+    if (ranbin === 0) {
+      text = text + ' ' + randIndex(this.replies.tellToGive) +'\n'+ randIndex(this.replies.kaomoji)+'\n[by @tiny_icon]';
+    } else {
+      text = text + ' ' + randIndex(this.replies.tellToGive) +'\n\n[by @tiny_icon] ' + randIndex(this.replies.tags);
+    }
   } else {
-    var text = '@' + tweet.user.screen_name + ' ' + randIndex(this.replies.tellToGive) +'\n\n[by @tiny_icon][vimeo.com/124878122]';
-  }*/
-  var text = '@' + tweet.user.screen_name + ' '+ randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.mes) + randIndex(this.replies.hitters) + '\n' + randIndex(this.replies.kaomoji);
-  var hash = Math.random();
-  if (hash < 0.35) { 
-    text = text + ' ' + randIndex(this.replies.tags); + '\n[by @tiny_icon]';
-  } else {
-    text = text + '\n[by @tiny_icon]';
+     text = '@' + tweet.user.screen_name + ' '+ randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.mes) + randIndex(this.replies.hitters) + '\n' + randIndex(this.replies.kaomoji);
+    var hash = Math.random();
+    if (hash < 0.35) { 
+      text = text + ' ' + randIndex(this.replies.tags) + '\n[by @tiny_icon]';
+    } else {
+      text = text + '\n[by @tiny_icon]';
+    }
   }
   return text;
 };
