@@ -180,12 +180,12 @@ Bot.prototype.makeText = function(tweet) {
   } else {
     var text = '@' + tweet.user.screen_name + ' ' + randIndex(this.replies.tellToGive) +'\n\n[by @tiny_icon][vimeo.com/124878122]';
   }*/
-  var text = '@' + tweet.user.screen_name + ' '+ randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.kaomoji) + randIndex(this.replies.mes) + randIndex(this.replies.hitters);
-  var ranbin = randIndex([0, 1]);
-  if (ranbin === 0) {
-    text = text + '\n\n[by @tiny_icon][vimeo.com/124878122]';
+  var text = '@' + tweet.user.screen_name + ' '+ randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.mes) + randIndex(this.replies.hitters) + '\n' + randIndex(this.replies.kaomoji);
+  var hash = Math.random();
+  if (hash < 0.35) { 
+    text = text + ' ' + randIndex(this.replies.tags); + '\n[by @tiny_icon]';
   } else {
-    text = text + '\n\n[by @tiny_icon]';
+    text = text + '\n[by @tiny_icon]';
   }
   return text;
 };
