@@ -90,7 +90,8 @@ Bot.prototype.findDocuments = function(db, callback) {
       console.log('picked doc');
       var text = thisbot.makeText(tweet);
       var tempFile = 'latePic';
-      thisbot.DlPic(tweet.entities.media[0].media_url, tempFile, thisbot.convertRemojiTweet(tweet, tempFile, text));
+      var opName = 'lateop';
+      thisbot.DlPic(tweet.entities.media[0].media_url, tempFile, thisbot.convertRemojiTweet(tweet, tempFile, text, opName));
       collection.update({tweet: tweet}, { $set: {responded: true} }, function(err, result) {
         assert.equal(err, null);
         console.log('updated responded field to true in mongo');
@@ -104,23 +105,27 @@ Bot.prototype.findDocuments = function(db, callback) {
 Bot.prototype.emptyDB = function(callback) {
   var thisbot = this;
   if (thisbot.givePicsLock === false) {
+    console.log('GivePicsLock taken by emptyDB()');
     thisbot.givePicsLock = true;
     MongoClient.connect(thisbot.dburl, function(err, db) {
       assert.equal(err, null);
       thisbot.findDocuments(db, function() {
         db.close();
         setTimeout(function() {
-          console.log('givePicsLock now FALSE');
+          console.log('givePicsLock now FALSE.. released from emptyDB()');
           thisbot.givePicsLock = false;
-          thisbot.emptyDB()
           setTimeout(function() {
+            thisbot.emptyDB()
             thisbot.spamLock = false;
-          }, 60000);
-        }, 12000);
+          }, 6000);
+        }, 30000);
       }); 
     });
   } else {
     console.log('emptyDB() blocked by givePicsLock');
+    setTimeout(function() {
+      thisbot.emptyDB();
+    }, 6000);
   }
 };
 
@@ -140,22 +145,24 @@ Bot.prototype.givePics = function(collect, callback) {
             db.close();
           });
         });
-        var status = '@' + tweet.user.screen_name + ' ' + randIndex(thisbot.replies.kaomoji) + ' ' + randIndex(thisbot.replies.err);
-        console.log('givePicsLock BLOCKED HERE ');
-        thisbot.twit.post('statuses/update', { status: status }, function() {
-          return;
-        });
+        //var status = '@' + tweet.user.screen_name + ' ' + randIndex(thisbot.replies.kaomoji) + ' ' + randIndex(thisbot.replies.err);
+        console.log('givePics BLOCKED HERE by givePicsLock');
+        //thisbot.twit.post('statuses/update', { status: status }, function() {
+        //  return;
+        //});
       }
     } else {
       if (validated === true) {
+        console.log('GivePicsLock taken by givePics()');
         thisbot.givePicsLock = true;
         console.log('givePicksLock now true');
         console.log('DOWNLOADING pic to GIVE BACK');
         var tempFile = 'givePic';
+        var opName = 'giveop';
         var text = thisbot.makeText(tweet);
-        thisbot.DlPic(tweet.entities.media[0].media_url, tempFile, thisbot.convertRemojiTweet(tweet, tempFile, text));
+        thisbot.DlPic(tweet.entities.media[0].media_url, tempFile, thisbot.convertRemojiTweet(tweet, tempFile, text, opName));
         setTimeout(function() {
-          console.log('givePicsLock now FALSE');
+          console.log('givePicsLock now FALSE... released from givePics()');
           thisbot.givePicsLock = false;
           setTimeout(function() {
             thisbot.spamLock = false;
@@ -173,7 +180,7 @@ Bot.prototype.makeText = function(tweet) {
   } else {
     var text = '@' + tweet.user.screen_name + ' ' + randIndex(this.replies.tellToGive) +'\n\n[by @tiny_icon][vimeo.com/124878122]';
   }*/
-  var text = '@' + tweet.user.screen_name + ' '+ randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.kaomoji) + ' ' + ' tweet me for ' + randIndex(this.replies.hitters);
+  var text = '@' + tweet.user.screen_name + ' '+ randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.kaomoji) + randIndex(this.replies.mes) + randIndex(this.replies.hitters);
   var ranbin = randIndex([0, 1]);
   if (ranbin === 0) {
     text = text + '\n\n[by @tiny_icon][vimeo.com/124878122]';
@@ -198,12 +205,13 @@ Bot.prototype.emojiSpam = function(callback) {
             thisbot.spamLock = true;
             console.log('downloading pic');
             var tempFile = 'downloaded';
+            var opName = 'getridofthisfunc'
             var text = '@' + tweet.user.screen_name + ' ' + randIndex(thisbot.replies.tellToGive) + ' by @tiny_icon';
-            thisbot.DlPic(tweet.entities.media[0].media_url, tempFile, thisbot.convertRemojiTweet(tweet, tempFile, text));
+            thisbot.DlPic(tweet.entities.media[0].media_url, tempFile, thisbot.convertRemojiTweet(tweet, tempFile, text, opName));
             //spamLock helps this bot from spamming too often
             setTimeout(function() {
               thisbot.spamLock = false;
-              console.log('givePicsLock now FALSE');
+              console.log('givePicsLock now FALSE...released from <get rid of this fnc>');
               thisbot.givePicsLock = false;
               console.log('spamLock now false');
             }, 120000);
@@ -224,13 +232,13 @@ Bot.prototype.DlPic = function(url, tempFile, callback) {
 };
 
 //function for replying to tweets with a remojified twitpic
-Bot.prototype.convertRemojiTweet = function(tweet, tempFile, text) {
+Bot.prototype.convertRemojiTweet = function(tweet, tempFile, text, opName) {
   var thisbot = this;
   setTimeout(function() {
     thisbot.childProc = exec('convert public/'+tempFile+'.jpg public/'+tempFile+'.png', function(error, stdout, stderr) {
       /*console.log('stdout: ' + stdout);
       console.log('stderr: ' + stderr);*/
-      thisbot.remoji('emoji/', 1, 10, 'public/'+tempFile+'.png', text, tweet);
+      thisbot.remoji('emoji/', 1, 10, 'public/'+tempFile+'.png', text, tweet, opName);
     });
   }, 5000);
 };
@@ -257,10 +265,9 @@ Bot.prototype.picpost = function(text, pic, tweet2Reply2, callback) {
   });
 };
 
-Bot.prototype.remoji = function (dir, scale, reso, inputPath, text, tweet2Reply2) {
+Bot.prototype.remoji = function (dir, scale, reso, inputPath, text, tweet2Reply2, opName) {
   var thisbot = this;
-  var opName = 'test.png';
-  var opPath = 'public/' + opName;
+  var opPath = 'public/' + opName + '.png';
   var cmd = 'python remoji.py -s ' + inputPath + ' ' + dir + ' ' + opPath + ' ' + scale + ' ' + reso;
   console.log(cmd);
   var opExists = false;

@@ -25,10 +25,10 @@ function datestring () {
 
 bot.emptyDB();
 
-//var collect = false;
-//bot.givePics(collect, function(err, reply) {
-//  if (err) return handleError(err);
-//});
+var collect = false;
+bot.givePics(collect, function(err, reply) {
+  if (err) return handleError(err);
+});
 
 /*setInterval(function() {
   console.log('running emptyDB()');
