@@ -7,20 +7,24 @@ var http = require('http');
 var utf8 = require('utf8');
 var Twit = require('./node_modules/twit/lib/twitter');
 var exec = require('child_process').exec;
+var MongoClient = require('mongodb').MongoClient
+  , assert = require('assert');
+
 
 var Bot = module.exports = function(config) { 
   this.twit = new Twit(config);
   this.emojiWiki = fs.readFileSync('./public/emojiWiki.txt', 'utf8');
   this.emojiWiki = modifyEmojiWiki(this.emojiWiki)
   this.replies = JSON.parse(fs.readFileSync('./replies.json', 'utf8'));
+  this.spamLock = false;
+  this.givePicsLock = false;
+  this.dburl = 'mongodb://localhost:27017/peondb';
   console.log(this.replies);
 };
 
 // make childproc belong to bot to avoid memory leak
 Bot.prototype.childProc;
 //locks childProc for downloading photos and remojiing them so i can always use downloaded.png as a file name
-Bot.prototype.spamLock = false;
-Bot.prototype.givePicsLock = false;
 
 var modifyEmojiWiki = function(emojiText) {
   var regex = /\./gi, result, indices = [];
@@ -44,40 +48,130 @@ var modifyEmojiWiki = function(emojiText) {
   return sentences;
 };
 
+Bot.prototype.validateTweet = function(tweet) {
+  if (tweet.entities.hasOwnProperty('media') && tweet.user.screen_name !== 'tiny_peon') {
+    if (tweet.entities.media.length === 1 && tweet.entities.media[0].type === 'photo') {
+      return true;
+    } else {
+      return false;
+    }
+  } else{
+    return false;
+    console.log('tweet validated');
+  }
+};
+
+Bot.prototype.insertDocuments = function(db, tweet, callback) {
+  // Get the documents collection 
+  var collection = db.collection('unresponded');
+  // Insert some documents 
+  var doc = {tweet: tweet, responded: false};
+  collection.insert([doc], function(err, result) {
+    assert.equal(err, null);
+    assert.equal(1, result.ops.length);
+    callback(result);
+  });
+}
+
+Bot.prototype.findDocuments = function(db, callback) {
+  var thisbot = this;
+  var collection = db.collection('unresponded');
+  collection.find({}).toArray(function(err, docs) {
+    console.log('total tweets in mongo: ' + docs.length);
+  });
+  collection.find({responded: false}).toArray(function(err, docs) {
+    assert.equal(err, null);
+    console.log('unresponded tweets: ' + docs.length);
+    if (docs.length === 0) {
+      console.log('no unresponded tweets');
+      callback();
+    } else {
+      var tweet = docs[0].tweet;
+      console.log('picked doc');
+      var text = thisbot.makeText(tweet);
+      var tempFile = 'latePic';
+      thisbot.DlPic(tweet.entities.media[0].media_url, tempFile, thisbot.convertRemojiTweet(tweet, tempFile, text));
+      collection.update({tweet: tweet}, { $set: {responded: true} }, function(err, result) {
+        assert.equal(err, null);
+        console.log('updated responded field to true in mongo');
+        callback();
+      });
+    }
+  });
+};
+  
+
+Bot.prototype.emptyDB = function(callback) {
+  var thisbot = this;
+  if (thisbot.givePicsLock === false) {
+    thisbot.givePicsLock = true;
+    MongoClient.connect(thisbot.dburl, function(err, db) {
+      assert.equal(err, null);
+      thisbot.findDocuments(db, function() {
+        db.close();
+        setTimeout(function() {
+          console.log('givePicsLock now FALSE');
+          thisbot.givePicsLock = false;
+          setTimeout(function() {
+            thisbot.spamLock = false;
+          }, 60000);
+        }, 12000);
+      }); 
+    });
+  } else {
+    console.log('emptyDB() blocked by givePicsLock');
+  }
+};
+
 Bot.prototype.givePics = function(callback) {
   var thisbot = this;
   var stream = this.twit.stream('statuses/filter', { track: '@tiny_peon' });
   stream.on('tweet', function(tweet) {
+    var validated = thisbot.validateTweet(tweet)
     if (thisbot.givePicsLock === true) {
-      var status = '@' + tweet.user.screen_name + ' oops, something went wrong... try again';
-      console.log('givePicsLock BLOCKED HERE ');
-      thisbot.twit.post('statuses/update', { status: status }, function() {
-        return;
-      });
+      if (validated === true) {
+        MongoClient.connect(thisbot.dburl, function(err, db) {
+          assert.equal(null, err);
+          console.log('connected to mongo');
+          thisbot.insertDocuments(db, tweet, function() {
+            console.log('inserted blocked tweet into mongo');
+            db.close();
+          });
+        });
+        var status = '@' + tweet.user.screen_name + ' ' + randIndex(thisbot.replies.kaomoji) + ' oops, something went wrong... try again';
+        console.log('givePicsLock BLOCKED HERE ');
+        thisbot.twit.post('statuses/update', { status: status }, function() {
+          return;
+        });
+      }
     } else {
-      if (tweet.entities.hasOwnProperty('media') && tweet.user.screen_name !== 'tiny_peon') {
-        if (tweet.entities.media.length === 1 && tweet.entities.media[0].type === 'photo') {
-          thisbot.givePicsLock = true;
-          console.log('givePicksLock now true');
-          console.log('DOWNLOADING pic to GIVE BACK');
-          var tempFile = 'givePic';
-          var ranbin = randIndex([0, 1]);
-          if (ranbin === 0) {
-            var text = '@' + tweet.user.screen_name + ' ' + randIndex(thisbot.replies.tellToGive) +'\n\n'+ randIndex(thisbot.replies.kaomoji)+' [by @tiny_icon]';
-          } else {
-            var text = '@' + tweet.user.screen_name + ' ' + randIndex(thisbot.replies.tellToGive) +'\n\n[by @tiny_icon][vimeo.com/125338493]';
-          }
-          thisbot.DlPic(tweet.entities.media[0].media_url, tempFile, thisbot.convertRemojiTweet(tweet, tempFile, text));
+      if (validated === true) {
+        thisbot.givePicsLock = true;
+        console.log('givePicksLock now true');
+        console.log('DOWNLOADING pic to GIVE BACK');
+        var tempFile = 'givePic';
+        var text = thisbot.makeText(tweet);
+        thisbot.DlPic(tweet.entities.media[0].media_url, tempFile, thisbot.convertRemojiTweet(tweet, tempFile, text));
+        setTimeout(function() {
+          console.log('givePicsLock now FALSE');
+          thisbot.givePicsLock = false;
           setTimeout(function() {
-            thisbot.givePicsLock = false;
-            setTimeout(function() {
-              thisbot.spamLock = false;
-            }, 60000);
-          }, 12000);
-        }
+            thisbot.spamLock = false;
+          }, 60000);
+        }, 12000);
       }
     }
   });
+};
+
+Bot.prototype.makeText = function(tweet) {
+  var ranbin = randIndex([0, 1]);
+  if (ranbin === 0) {
+    var text = '@' + tweet.user.screen_name + ' ' + randIndex(this.replies.tellToGive) +'\n\n'+ randIndex(this.replies.kaomoji)+' [by @tiny_icon]';
+  } else {
+    var text = '@' + tweet.user.screen_name + ' ' + randIndex(this.replies.tellToGive) +'\n\n[by @tiny_icon][vimeo.com/124878122]';
+  }
+  return text;
 };
 
 Bot.prototype.emojiSpam = function(callback) {
@@ -100,6 +194,7 @@ Bot.prototype.emojiSpam = function(callback) {
             //spamLock helps this bot from spamming too often
             setTimeout(function() {
               thisbot.spamLock = false;
+              console.log('givePicsLock now FALSE');
               thisbot.givePicsLock = false;
               console.log('spamLock now false');
             }, 120000);
@@ -124,8 +219,8 @@ Bot.prototype.convertRemojiTweet = function(tweet, tempFile, text) {
   var thisbot = this;
   setTimeout(function() {
     thisbot.childProc = exec('convert public/'+tempFile+'.jpg public/'+tempFile+'.png', function(error, stdout, stderr) {
-      console.log('stdout: ' + stdout);
-      console.log('stderr: ' + stderr);
+      /*console.log('stdout: ' + stdout);
+      console.log('stderr: ' + stderr);*/
       thisbot.remoji('emoji/', 1, 10, 'public/'+tempFile+'.png', text, tweet);
     });
   }, 5000);

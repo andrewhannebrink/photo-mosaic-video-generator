@@ -27,6 +27,11 @@ bot.givePics(function(err, reply) {
   if (err) return handleError(err);
 });
 
+/*setInterval(function() {
+  console.log('running emptyDB()');
+  bot.emptyDB();
+}, 45000);*/
+
 //console.log('emojiWiki: ' + bot.emojiWiki);
 //console.log(typeof bot.emojiWiki);
 //console.log(bot.emojiWiki[30]);
