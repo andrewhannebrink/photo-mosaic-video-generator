@@ -23,10 +23,12 @@ function datestring () {
 
 //bot.randRemoji();
 
-var collect = true;
-bot.givePics(collect, function(err, reply) {
-  if (err) return handleError(err);
-});
+bot.emptyDB();
+
+//var collect = false;
+//bot.givePics(collect, function(err, reply) {
+//  if (err) return handleError(err);
+//});
 
 /*setInterval(function() {
   console.log('running emptyDB()');
