@@ -23,7 +23,8 @@ function datestring () {
 
 //bot.randRemoji();
 
-bot.givePics(function(err, reply) {
+var collect = true;
+bot.givePics(collect, function(err, reply) {
   if (err) return handleError(err);
 });
 

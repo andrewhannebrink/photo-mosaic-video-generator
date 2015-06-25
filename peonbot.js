@@ -112,6 +112,7 @@ Bot.prototype.emptyDB = function(callback) {
         setTimeout(function() {
           console.log('givePicsLock now FALSE');
           thisbot.givePicsLock = false;
+          thisbot.emptyDB()
           setTimeout(function() {
             thisbot.spamLock = false;
           }, 60000);
@@ -123,12 +124,13 @@ Bot.prototype.emptyDB = function(callback) {
   }
 };
 
-Bot.prototype.givePics = function(callback) {
+Bot.prototype.givePics = function(collect, callback) {
   var thisbot = this;
+  console.log('collect: ' + collect);
   var stream = this.twit.stream('statuses/filter', { track: '@tiny_peon' });
   stream.on('tweet', function(tweet) {
     var validated = thisbot.validateTweet(tweet)
-    if (thisbot.givePicsLock === true) {
+    if (thisbot.givePicsLock === true || collect === true) {
       if (validated === true) {
         MongoClient.connect(thisbot.dburl, function(err, db) {
           assert.equal(null, err);
@@ -138,7 +140,7 @@ Bot.prototype.givePics = function(callback) {
             db.close();
           });
         });
-        var status = '@' + tweet.user.screen_name + ' ' + randIndex(thisbot.replies.kaomoji) + ' oops, something went wrong... try again';
+        var status = '@' + tweet.user.screen_name + ' ' + randIndex(thisbot.replies.kaomoji) + ' ' + randIndex(thisbot.replies.err);
         console.log('givePicsLock BLOCKED HERE ');
         thisbot.twit.post('statuses/update', { status: status }, function() {
           return;
@@ -165,11 +167,18 @@ Bot.prototype.givePics = function(callback) {
 };
 
 Bot.prototype.makeText = function(tweet) {
-  var ranbin = randIndex([0, 1]);
+  /*var ranbin = randIndex([0, 1]);
   if (ranbin === 0) {
     var text = '@' + tweet.user.screen_name + ' ' + randIndex(this.replies.tellToGive) +'\n\n'+ randIndex(this.replies.kaomoji)+' [by @tiny_icon]';
   } else {
     var text = '@' + tweet.user.screen_name + ' ' + randIndex(this.replies.tellToGive) +'\n\n[by @tiny_icon][vimeo.com/124878122]';
+  }*/
+  var text = '@' + tweet.user.screen_name + ' '+ randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.kaomoji) + ' ' + ' tweet me for ' + randIndex(this.replies.hitters);
+  var ranbin = randIndex([0, 1]);
+  if (ranbin === 0) {
+    text = text + '\n\n[by @tiny_icon][vimeo.com/124878122]';
+  } else {
+    text = text + '\n\n[by @tiny_icon]';
   }
   return text;
 };
