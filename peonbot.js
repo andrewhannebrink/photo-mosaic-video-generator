@@ -76,16 +76,26 @@ Bot.prototype.insertDocuments = function(db, tweet, callback) {
 Bot.prototype.findDocuments = function(db, callback) {
   var thisbot = this;
   var collection = db.collection('unresponded');
-  collection.find({}).toArray(function(err, docs) {
-    console.log('total tweets in mongo: ' + docs.length);
-  });
+  /*collection.find({}).toArray(function(err, docs) {
+    if (typeof docs === 'undefined') {
+      console.log('ERR: aggregate docs is undefined');
+      callback();
+    }
+    else {
+      console.log('total tweets in mongo: ' + docs.length);
+    }
+  });*/
   collection.find({responded: false}).toArray(function(err, docs) {
     assert.equal(err, null);
-    console.log('unresponded tweets: ' + docs.length);
-    if (docs.length === 0) {
+    if (typeof docs === 'undefined') {
+      console.log('ERR: list of docs with responded:false is undefined');
+      callback();
+    
+    } else if (docs.length === 0) {
       console.log('no unresponded tweets');
       callback();
     } else {
+      console.log('unresponded tweets: ' + docs.length);
       var tweet = docs[0].tweet;
       console.log('picked doc');
       var text = thisbot.makeText(tweet);
@@ -117,15 +127,15 @@ Bot.prototype.emptyDB = function(callback) {
           setTimeout(function() {
             thisbot.emptyDB()
             thisbot.spamLock = false;
-          }, 6000);
-        }, 30000);
+          }, 12000);
+        }, 40000);
       }); 
     });
   } else {
     console.log('emptyDB() blocked by givePicsLock');
     setTimeout(function() {
       thisbot.emptyDB();
-    }, 6000);
+    }, 14000);
   }
 };
 
@@ -173,24 +183,45 @@ Bot.prototype.givePics = function(collect, callback) {
   });
 };
 
+Bot.prototype.makeSen = function() {
+  var text = randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.sen.nv) + randIndex(this.replies.sen.adj) + randIndex(this.replies.sen.adj) + randIndex(this.replies.sen.n) + '\n' + randIndex(this.replies.tags) + '\n[by @tiny_icon]';
+  return text;
+};
+
 Bot.prototype.makeText = function(tweet) {
-  var text = ''
-  var picker = Math.random();
-  if (picker < 0.4) {
-    text = '@' + tweet.user.screen_name + ' ' + randIndex(this.replies.kaomoji); 
-    var ranbin = randIndex([0, 1]);
-    if (ranbin === 0) {
-      text = text + ' ' + randIndex(this.replies.tellToGive) +'\n'+ randIndex(this.replies.kaomoji)+'\n[by @tiny_icon]';
+  var text = '';
+  var sen = Math.random();
+  if (sen > 0.5) {
+    text = '@' + tweet.user.screen_name + ' '; 
+    text = text + this.makeSen();
+  }
+  else {
+    var picker = Math.random();
+    if (picker < 0.3) {
+      text = '@' + tweet.user.screen_name + ' ' + randIndex(this.replies.kaomoji); 
+      var ranbin = [randIndex([0, 1]), randIndex([0, 1])];
+      if (ranbin[0] === 0) {
+        if (ranbin[1] === 1) {
+          text = text + ' ' + randIndex(this.replies.tellToGive) +'\n'+ randIndex(this.replies.kaomoji)+'\n[by @tiny_icon]';
+        } else {
+          text = text + ' ' + randIndex(this.replies.tellToGive) +'\n'+ randIndex(this.replies.links);
+        }
+      } else {
+        text = text + ' ' + randIndex(this.replies.tellToGive) +'\n\n[by @tiny_icon] ' + randIndex(this.replies.tags);
+      }
     } else {
-      text = text + ' ' + randIndex(this.replies.tellToGive) +'\n\n[by @tiny_icon] ' + randIndex(this.replies.tags);
-    }
-  } else {
-     text = '@' + tweet.user.screen_name + ' '+ randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.mes) + randIndex(this.replies.hitters) + '\n' + randIndex(this.replies.kaomoji);
-    var hash = Math.random();
-    if (hash < 0.35) { 
-      text = text + ' ' + randIndex(this.replies.tags) + '\n[by @tiny_icon]';
-    } else {
-      text = text + '\n[by @tiny_icon]';
+       var wtfPicker = Math.random();
+       if (wtfPicker < 0.4) {
+         text = '@' + tweet.user.screen_name + ' '+ randIndex(this.replies.wtf) + ' ' + randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.mes) + randIndex(this.replies.hitters) + '\n' + randIndex(this.replies.kaomoji);
+      } else {
+         text = '@' + tweet.user.screen_name + ' '+ randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.mes) + randIndex(this.replies.hitters) + '\n' + randIndex(this.replies.kaomoji);
+      }
+      var tagP = Math.random();
+      if (tagP < 0.35) { 
+        text = text + ' ' + randIndex(this.replies.tags) + '\n[by @tiny_icon]';
+      } else {
+        text = text + ' ' + randIndex(this.replies.links);
+      }
     }
   }
   return text;
