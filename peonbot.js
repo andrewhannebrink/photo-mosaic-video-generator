@@ -73,18 +73,22 @@ Bot.prototype.insertDocuments = function(db, tweet, callback) {
   });
 }
 
+//checks if tweet has since been deleted
+Bot.prototype.tweetExists = function(tweet, callback) {
+  this.twit.get('statuses/show/:id', { id: tweet.id_str}, function(err, data, response) {
+    if (err) {
+      console.log(err); 
+      console.log('ERR: hoping its tweet doesnt exist for now :) ' + tweet.id_str);
+      callback(false);
+    } else {
+      callback(true); 
+    }
+  });
+};
+
 Bot.prototype.findDocuments = function(db, callback) {
   var thisbot = this;
   var collection = db.collection('unresponded');
-  /*collection.find({}).toArray(function(err, docs) {
-    if (typeof docs === 'undefined') {
-      console.log('ERR: aggregate docs is undefined');
-      callback();
-    }
-    else {
-      console.log('total tweets in mongo: ' + docs.length);
-    }
-  });*/
   collection.find({responded: false}).toArray(function(err, docs) {
     assert.equal(err, null);
     if (typeof docs === 'undefined') {
@@ -98,14 +102,26 @@ Bot.prototype.findDocuments = function(db, callback) {
       console.log('unresponded tweets: ' + docs.length);
       var tweet = docs[0].tweet;
       console.log('picked doc');
-      var text = thisbot.makeText(tweet);
-      var tempFile = 'latePic';
-      var opName = 'lateop';
-      thisbot.DlPic(tweet.entities.media[0].media_url, tempFile, thisbot.convertRemojiTweet(tweet, tempFile, text, opName));
-      collection.update({tweet: tweet}, { $set: {responded: true} }, function(err, result) {
-        assert.equal(err, null);
-        console.log('updated responded field to true in mongo');
-        callback();
+      thisbot.tweetExists(tweet, function(exists) {
+        if (exists === false) {
+          console.log('tweet has since been deleted');
+          collection.update({tweet: tweet}, { $set: {responded: "deleted"} }, function(err, result) {
+            assert.equal(err, null);
+            console.log('updated responded field to deleted in mongo');
+            callback();
+          });
+        } else {
+          console.log('tweet still exists / was not deleted');
+          var text = thisbot.makeText(tweet);
+          var tempFile = 'latePic';
+          var opName = 'lateop';
+          thisbot.DlPic(tweet.entities.media[0].media_url, tempFile, thisbot.convertRemojiTweet(tweet, tempFile, text, opName));
+          collection.update({tweet: tweet}, { $set: {responded: true} }, function(err, result) {
+            assert.equal(err, null);
+            console.log('updated responded field to true in mongo');
+            callback();
+          });
+        }
       });
     }
   });
@@ -184,7 +200,7 @@ Bot.prototype.givePics = function(collect, callback) {
 };
 
 Bot.prototype.makeSen = function() {
-  var text = randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.sen.nv) + randIndex(this.replies.sen.adj) + randIndex(this.replies.sen.adj) + randIndex(this.replies.sen.n) + '\n' + randIndex(this.replies.tags) + '\n[by @tiny_icon]';
+  var text = randIndex(this.replies.kaomoji) + ' ' + randIndex(this.replies.sen.nv) + randIndex(this.replies.sen.art) + randIndex(this.replies.sen.adj) + randIndex(this.replies.sen.n) + '\n[' + randIndex(this.replies.tags) + ']\n[by @tiny_icon]';
   return text;
 };
 
@@ -288,7 +304,7 @@ Bot.prototype.picpost = function(text, pic, tweet2Reply2, callback) {
     var mediaIdStr = data.media_id_string;
     var paramas = { status: text, media_ids: [mediaIdStr] };
     if (tweet2Reply2 !== null) {
-      paramas.in_reply_to_status_id = tweet2Reply2.id;
+      paramas.in_reply_to_status_id = tweet2Reply2.id_str;
       console.log('in_reply_to_status_id: ' + paramas.in_reply_to_status_id);
     } else {
        console.log('not in replay to a tweet');
