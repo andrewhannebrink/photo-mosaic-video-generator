@@ -18,7 +18,7 @@ Use this command to make a photo-mosaic video, where the output frames are saved
     endSeq
 
     Sequence s2 (spec) emoji/ 0	       # Make Sequence class of "spectrum" type, use directory "emoji/" for whole sequence
-        (0, 0, 0) (255, 0, 255) 15     # These 150 frames use the input video "mp4s/stripes.MP4, start with a color-limited gradient of emojis between (0,0,0) (255,0,255) with 15 steps inbetween the two colors, and through at the 150 frames, gradually changes the available color gradient to (0,0,0) (0,255,255). A gradient of gradients, if you will.
+        (0, 0, 0) (255, 0, 255) 15     # These 150 frames use the input video "mp4s/stripes.MP4, start with a color-limited gradient of emojis between (0,0,0) (255,0,255) with 15 steps inbetween the two colors, and through the 150 frames, gradually change the available color gradient to (0,0,0) (0,255,255). A gradient of gradients, if you will.
             stripes
                 150    1    120    5
         (0, 0, 0) (0, 255, 255) 15
@@ -27,7 +27,7 @@ Use this command to make a photo-mosaic video, where the output frames are saved
         (0, 0, 0) (0, 0, 255) 15
     endSeq
 
-    makeAnim #Make the final animation, combine s1 followed by s2 for the final output
+    makeAnim     # Make the final animation, combine s1 followed by s2 for the final output
     s1
     s2
     endAnim
