@@ -1,0 +1,62 @@
+{ [Error: Application cannot perform write actions. Contact Twitter Platform Operations through https://support.twitter.com/forms/platform]
+  message: 'Application cannot perform write actions. Contact Twitter Platform Operations through https://support.twitter.com/forms/platform',
+  statusCode: 403,
+  twitterReply: '{"errors":[{"message":"Application cannot perform write actions. Contact Twitter Platform Operations through https://support.twitter.com/forms/platform","code":261}]}',
+  code: 261,
+  allErrors:
+   [ { message: 'Application cannot perform write actions. Contact Twitter Platform Operations through https://support.twitter.com/forms/platform',
+       code: 261 } ] }
+
+
+
+TypeError: Cannot read property 'length' of undefined
+    at /home/ubuntu/photo-mosaic-video-generator/peonbot.js:80:49
+    at handleCallback (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/lib/utils.js:95:12)
+    at /home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/lib/cursor.js:587:22
+    at handleCallback (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/node_modules/mongodb-core/lib/cursor.js:234:5)
+    at /home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/node_modules/mongodb-core/lib/cursor.js:542:22
+    at queryCallback (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/node_modules/mongodb-core/lib/cursor.js:167:20)
+    at Callbacks.flush (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:86:7)
+    at Server.destroy (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:694:41)
+    at Server.close (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/lib/server.js:345:17)
+    at Db.close (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/lib/db.js:273:19)
+
+
+GivePicsLock taken by emptyDB()
+collect: false
+unresponded tweets: 29
+picked doc
+updated responded field to true in mongo
+
+/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/lib/utils.js:97
+    process.nextTick(function() { throw err; });
+                                        ^
+TypeError: Cannot read property 'length' of undefined
+    at /home/ubuntu/photo-mosaic-video-generator/peonbot.js:80:49
+    at handleCallback (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/lib/utils.js:95:12)
+    at /home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/lib/cursor.js:587:22
+    at handleCallback (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/node_modules/mongodb-core/lib/cursor.js:234:5)
+    at /home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/node_modules/mongodb-core/lib/cursor.js:542:22
+    at queryCallback (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/node_modules/mongodb-core/lib/cursor.js:167:20)
+    at Callbacks.flush (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:86:7)
+    at Server.destroy (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:694:41)
+    at Server.close (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/lib/server.js:345:17)
+    at Db.close (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/lib/db.js:273:19)
+error: Forever detected script exited with code: 8
+
+
+
+
+^C
+ubuntu@ip-172-31-42-97:~/photo-mosaic-video-generator$ tail -f ~/.forever/r1Wk.log 
+    at handleCallback (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/lib/utils.js:95:12)
+    at /home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/lib/cursor.js:587:22
+    at handleCallback (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/node_modules/mongodb-core/lib/cursor.js:234:5)
+    at /home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/node_modules/mongodb-core/lib/cursor.js:542:22
+    at queryCallback (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/node_modules/mongodb-core/lib/cursor.js:167:20)
+    at Callbacks.flush (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:86:7)
+    at Server.destroy (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:694:41)
+    at Server.close (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/lib/server.js:345:17)
+    at Db.close (/home/ubuntu/photo-mosaic-video-generator/node_modules/mongodb/lib/db.js:273:19)
+error: Forever detected script exited with code: 8
+
