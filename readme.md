@@ -38,7 +38,7 @@ After this command finishes, use this ffmpeg command to compress the output fram
 Make a single photo-mosaic image:
 =================================
 
-	This option takes a starting image, a directory name followed by "/", a name to output the image to, a scale, and a depth (tile resolution in pixels) to create a single photo-mosaic image from the image library specified by <little image directory>. For instance, the command: 
+This option takes a starting image, a directory name followed by "/", a name to output the image to, a scale, and a depth (tile resolution in pixels) to create a single photo-mosaic image from the image library specified by <little image directory>. For instance, the command: 
 
 " $ python remoji.py -s emoji/1f42a.png emoji/ camel.png 10 40" 
 
@@ -46,12 +46,12 @@ Would make a photo-mosaic of the image at the path "emoji/1f42a.png" using the i
 
 Remove transparent pixels in little image directory:
 ====================================================
- 	"python remoji.py -c win/"
+"python remoji.py -c win/"
 	 
-	This option takes the little image directory, and re-saves all the images after converting their transparent pixels to solid white. This prevents PIL from occasionally converting transparent pixels to black, which can interfere with output image quality in some circumstances. So, running "$ python remoji.py -c emoji/" will over-write "emoji/" with images containing no transparent pixels, but white pixels in their place. 
+This option takes the little image directory, and re-saves all the images after converting their transparent pixels to solid white. This prevents PIL from occasionally converting transparent pixels to black, which can interfere with output image quality in some circumstances. So, running "$ python remoji.py -c emoji/" will over-write "emoji/" with images containing no transparent pixels, but white pixels in their place. 
 
 Join directories of output frames: 
 ==================================
-	"$ python remoji.py -j mov1/ mov2/ mov3/ movf/
+"$ python remoji.py -j mov1/ mov2/ mov3/ movf/
 
-	The -j (join) option concatenates all the frames in order from the directories passed as arguments up until the last argument. The new, concatenated directory is saved at the directory pass as the last argument (output movie directory). This option allows the user to render just chunks of an animation at a time, then add the new changes to an existing video.
+The -j (join) option concatenates all the frames in order from the directories passed as arguments up until the last argument. The new, concatenated directory is saved at the directory pass as the last argument (output movie directory). This option allows the user to render just chunks of an animation at a time, then add the new changes to an existing video.
