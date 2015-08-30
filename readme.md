@@ -12,25 +12,25 @@ Use this command to make a photo-mosaic video, where the output frames are saved
 
     Sequence s1 (mos) 0			# Make Sequence class of "mosaic" type named "s1." starts at frame 0 from input video segment (which is 0-10s as declared in the command line args)
         gifs emoji/			# Use input video mp4s/gifs.MP4 for next 150 frames. Use the directory of images "emoji/" for the icon set to use for the photo-mosaic video over these frames.
-                150     1       120	#These 150 frames move at a speed of 1 frame / input video frame, and the icon width throughout this segment is ~120px
-	gifs win/			# For the next 150 frames of the input video, use the image directory "win/" instead of emoji
-		150	1	80	5	#Again use speed of 1 frame / input video frame, but this time start at an icon width of ~80px, and gradually shrink to an icon width of ~5px through the 150 frames
-endSeq
+            150    1    120	#These 150 frames move at a speed of 1 frame / input video frame, and the icon width throughout this segment is ~120px
+        gifs win/			# For the next 150 frames of the input video, use the image directory "win/" instead of emoji
+            150    1    80    5	#Again use speed of 1 frame / input video frame, but this time start at an icon width of ~80px, and gradually shrink to an icon width of ~5px through the 150 frames
+    endSeq
 
-Sequence s2 (spec) emoji/ 0				#Make Sequence class of "spectrum" type, use directory "emoji/" for whole sequence
+    Sequence s2 (spec) emoji/ 0				#Make Sequence class of "spectrum" type, use directory "emoji/" for whole sequence
         (0, 0, 0) (255, 0, 255) 15			# These 150 frames use the input video "mp4s/stripes.MP4, start with a color-limited gradient of emojis between (0,0,0) (255,0,255) with 15 steps inbetween the two colors, and through at the 150 frames, gradually changes the available color gradient to (0,0,0) (0,255,255). A gradient of gradients, if you will.
-                stripes
-                        150     1       120     5
+            stripes
+                150    1    120    5
         (0, 0, 0) (0, 255, 255) 15
-		stripes
-			150	1	5
+            stripes
+                150    1    5
         (0, 0, 0) (0, 0, 255) 15
-endSeq
+    endSeq
 
-makeAnim #Make the final animation, combine s1 followed by s2 for the final output
-s1
-s2
-endAnim
+    makeAnim #Make the final animation, combine s1 followed by s2 for the final output
+    s1
+    s2
+    endAnim
 
 After this command finishes, use this ffmpeg command to compress the output frames into a video:
 "$ ffmpeg -r 30 -i mov/anim%04d.png -vb 20000k -c:v libx264 -pix_fmt yuv420p movie.mp4"
