@@ -11,13 +11,13 @@ Making a photo-mosaic video:
 Use this command to make a photo-mosaic video, where the output frames are saved as mov/anim0001.png, mov/anim0002.png, etc... This command uses the supplied input video from second 0, to second 10, and the instructions file ins/test.txt, which should read something like this (all tabs, no spaces):
 
     Sequence s1 (mos) 0                # Make Sequence class of "mosaic" type named "s1." starts at frame 0 from input video segment (which is 0-10s as declared in the command line args)
-        gifs emoji/                    # Use input video mp4s/gifs.MP4 for next 150 frames. Use the directory of images "emoji/" for the icon set to use for the photo-mosaic video over these frames.
-            150    1    120            #These 150 frames move at a speed of 1 frame / input video frame, and the icon width throughout this segment is ~120px
-        gifs win/                      # For the next 150 frames of the input video, use the image directory "win/" instead of emoji
-            150    1    80    5        #Again use speed of 1 frame / input video frame, but this time start at an icon width of ~80px, and gradually shrink to an icon width of ~5px through the 150 frames
+        gifs emoji/                        # Use input video mp4s/gifs.MP4 for next 150 frames. Use the directory of images "emoji/" for the icon set to use for the photo-mosaic video over these frames.
+            150    1    120                # These 150 frames move at a speed of 1 frame / input video frame, and the icon width throughout this segment is ~120px
+        gifs win/                          # For the next 150 frames of the input video, use the image directory "win/" instead of emoji
+            150    1    80    5        # Again use speed of 1 frame / input video frame, but this time start at an icon width of ~80px, and gradually shrink to an icon width of ~5px through the 150 frames
     endSeq
 
-    Sequence s2 (spec) emoji/ 0	       #Make Sequence class of "spectrum" type, use directory "emoji/" for whole sequence
+    Sequence s2 (spec) emoji/ 0	       # Make Sequence class of "spectrum" type, use directory "emoji/" for whole sequence
         (0, 0, 0) (255, 0, 255) 15     # These 150 frames use the input video "mp4s/stripes.MP4, start with a color-limited gradient of emojis between (0,0,0) (255,0,255) with 15 steps inbetween the two colors, and through at the 150 frames, gradually changes the available color gradient to (0,0,0) (0,255,255). A gradient of gradients, if you will.
             stripes
                 150    1    120    5
