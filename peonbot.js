@@ -59,10 +59,6 @@ Bot.prototype.givePics = function(callback) {
         var opName = 'giveop' + id;
         var text = thisbot.makeText(tweet);
         thisbot.DlPic(tweet.entities.media[0].media_url, tweet, tempFile, text, opName);
-        /*setTimeout(function() {
-          console.log('givePicsLock now FALSE... released from givePics()');
-          thisbot.givePicsLock = false;
-        }, 60000);*/
       }
     }
   });
@@ -155,31 +151,6 @@ Bot.prototype.remoji = function (dir, scale, reso, inputPath, text, tweet2Reply2
   });
 };
 
-/*Bot.prototype.randRemoji = function () {
-  if (this.givePicsLock === false) {
-    var possDirs = ['emoji/', 'win/'];
-    var bigImgDir = randIndex(possDirs);
-    var lilImgDir = randIndex(possDirs);
-    var scale = 15;
-    var reso = Math.floor(Math.random() * (40 - 7) + 7); 
-    var thisbot = this;
-    var jsdir = './' + bigImgDir;
-    fs.readdir(jsdir, function (err, files) {
-      if (err) {
-        throw err;
-        return
-      }
-      else {
-        var file = bigImgDir + randIndex(files);
-        //var text = wordScramble(randIndex(thisbot.emojiWiki)) + ' @tiny_icon';
-        var text = '(✤❛⃘ͫ Ʉ̮ ❛⃘ͫ)';
-        var tweet2Reply2 = null;
-        thisbot.remoji(lilImgDir, scale, reso, file, text, tweet2Reply2);
-      }
-    });
-  }
-};*/
-
 var wordScramble = function(emojiText) {
   var emojiText = emojiText.replace(/\sthe\s/g, randIndex([' his ', ' her ']));
   emojiText = emojiText.replace(/\sThe\s/g, randIndex([' His ', ' Her ']));
@@ -191,29 +162,3 @@ function randIndex (arr) {
   var index = Math.floor(arr.length*Math.random());
   return arr[index];
 };
-
-//
-//  post a tweet
-//
-//Bot.prototype.tweet = function (status, callback) {
-//  if(typeof status !== 'string') {
-//    return callback(new Error('tweet must be of type String'));
-//  } else if(status.length > 140) {
-//    return callback(new Error('tweet is too long: ' + status.length));
-//  }
-//  this.twit.post('statuses/update', { status: status }, callback);
-//};
-
-
-//Bot.prototype.search = function(term, date, callback) {
-//  if(typeof term !== 'string') {
-//    return callback(new Error('search term must be of type String'));
-//  }
-//  this.twit.get('search/tweets', {q: term + ' since:' + date, count: 100 }, function(err, data, response) {
-//    //randomTweet = randIndex(data)
-//    console.log(data);
-//    /*for (var i = 0; i < data.statuses.length; i++) {
-//      console.log(data.statuses[i]);
-//    }*/
-//  });
-//};
