@@ -1,4 +1,3 @@
-//
 //  Bot
 //  class for performing various twitter actions
 //
