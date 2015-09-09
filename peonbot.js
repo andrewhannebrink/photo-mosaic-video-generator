@@ -11,9 +11,9 @@ var request = require('request');
 
 var Bot = module.exports = function(config) { 
   this.twit = new Twit(config);
-  this.replies = JSON.parse(fs.readFileSync('./replies.json', 'utf8'));
+  this.replies = JSON.parse(fs.readFileSync('/home/ubuntu/photo-mosaic-video-generator/replies.json', 'utf8'));
   this.givePicsLock = false;
-  console.log(this.replies);
+  //console.log(this.replies);
 };
 
 // make childproc belong to bot to avoid memory leak
@@ -81,7 +81,7 @@ Bot.prototype.DlPic = function(url, tweet, tempFile, text, opName) {
   console.log('  ' + tempFile);
   console.log('  ' + text);
   console.log('  ' + opName);
-  var file = fs.createWriteStream('./public/'+tempFile+'.jpg');
+  var file = fs.createWriteStream('/home/ubuntu/photo-mosaic-video-generator/public/'+tempFile+'.jpg');
   file.on('close', function() {
     console.log('finished downloading pic');
     thisbot.convertRemojiTweet(tweet, tempFile, text, opName);
@@ -93,17 +93,17 @@ Bot.prototype.DlPic = function(url, tweet, tempFile, text, opName) {
 Bot.prototype.convertRemojiTweet = function(tweet, tempFile, text, opName) {
   var thisbot = this;
   setTimeout(function() {
-    thisbot.childProc = exec('convert public/'+tempFile+'.jpg public/'+tempFile+'.png', function(error, stdout, stderr) {
+    thisbot.childProc = exec('convert /home/ubuntu/photo-mosaic-video-generator/public/'+tempFile+'.jpg /home/ubuntu/photo-mosaic-video-generator/public/'+tempFile+'.png', function(error, stdout, stderr) {
       /*console.log('stdout: ' + stdout);
       console.log('stderr: ' + stderr);*/
       hashTagCount = thisbot.countHashTags(tweet);
       var dir;
       if (hashTagCount > 0) {
-        dir = 'win/';
+        dir = '/home/ubuntu/photo-mosaic-video-generator/win/';
       } else {
-        dir = 'emoji/';
+        dir = '/home/ubuntu/photo-mosaic-video-generator/emoji/';
       }
-      thisbot.remoji(dir, 1, 10, 'public/'+tempFile+'.png', text, tweet, opName);
+      thisbot.remoji(dir, 1, 10, '/home/ubuntu/photo-mosaic-video-generator/public/'+tempFile+'.png', text, tweet, opName);
     });
   }, 5000);
 };
@@ -134,8 +134,8 @@ Bot.prototype.picpost = function(text, pic, tweet2Reply2, callback) {
 
 Bot.prototype.remoji = function (dir, scale, reso, inputPath, text, tweet2Reply2, opName) {
   var thisbot = this;
-  var opPath = 'public/' + opName + '.png';
-  var cmd = 'python remoji.py -s ' + inputPath + ' ' + dir + ' ' + opPath + ' ' + scale + ' ' + reso;
+  var opPath = '/home/ubuntu/photo-mosaic-video-generator/public/' + opName + '.png';
+  var cmd = 'python /home/ubuntu/photo-mosaic-video-generator/remoji.py -s ' + inputPath + ' ' + dir + ' ' + opPath + ' ' + scale + ' ' + reso;
   console.log(cmd);
   var opExists = false;
   this.childProc = exec(cmd, function(error, stdout, stderr) {
@@ -144,7 +144,7 @@ Bot.prototype.remoji = function (dir, scale, reso, inputPath, text, tweet2Reply2
     if (error !== null) {
       console.log('exec error: ' + error);
     }
-    thisbot.picpost(text, './' + opPath, tweet2Reply2, function(err, reply) {
+    thisbot.picpost(text, opPath, tweet2Reply2, function(err, reply) {
       if (err) return handleError(err);
     });
   });
