@@ -21,13 +21,19 @@ class GifInfo:
 	def __init__(self, name, mp4Bool, secondsRange):
 		self.name = name
 		self.framesDir = name + 'frames/'
-		movieMaker.wipeDir(self.framesDir)
+		#print os.listdir('.')
 		if mp4Bool == False:
 			self.totFrames = remoji.convertGif(name, self.framesDir, auto = True)
 		else:
+			if self.framesDir[:-1] in os.listdir('.'):
+				print 'found ' + self.framesDir + ', not wiping'
+				self.totFrames = remoji.convertMp4(name, self.framesDir, secondsRange, auto = True)
+			else:
+				movieMaker.wipeDir(self.framesDir)
+				print 'wiping ' + self.framesDir
+				self.totFrames = remoji.convertMp4(name, self.framesDir, secondsRange, auto = False)
 			print 'totFrames getting created here'
 			print 'secondsRange = ' + str(secondsRange)
-			self.totFrames = remoji.convertMp4(name, self.framesDir, secondsRange, auto = False)
 			print 'totFrames = '  + str(self.totFrames)
 			
 

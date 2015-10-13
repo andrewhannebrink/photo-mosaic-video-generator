@@ -234,10 +234,13 @@ def convertMp4(inputMp4Name, framesDB, secondsRange, auto = False):
 	longInputMp4Name = 'mp4s/' + inputMp4Name
 	totFrames = (secondsRange[1] - secondsRange[0]) * 30
 	
+	# split video into frames if auto is false
 	if auto is False:
 		startStr = secondsToMinuteStr(secondsRange[0])	
 		endStr = secondsToMinuteStr(secondsRange[1])
 		os.system('ffmpeg -ss ' + startStr + ' -t ' + endStr + ' -i "' + longInputMp4Name + '.MP4" -r 30.0 "' + framesDB + inputMp4Name + '%4d.png"')
+
+	return totFrames
 
 #THIS FUNCTION EXTRACTS THE GIF FRAMES, MAKES, AND SAVES MOSAICS OF EACH FRAME AT THE GIVEN SCALE AND DEPTH INTO THE OUTPUTNAMESTR PATH 
 def makeLoopsFromFrames(inputDirectory, scale, littleImgs, outputNameStr):
@@ -297,9 +300,9 @@ def main(argv = None):
 			if opt == '-v':
 				mp4Bool = True
 				print 'Using mp4 input'
-			if opt == '-l':
-				loadBool = True
-				print 'Making directory of frames by preprocessing instructions file (colorMap file provided)...'
+			#if opt == '-l':
+			#	loadBool = True
+			#	print 'Making directory of frames by preprocessing instructions file (colorMap file provided)...'
 			if opt == '-j':
 				joinBool = True
 				print 'Concatenating movie directories...'
@@ -348,13 +351,13 @@ def main(argv = None):
 			endSec = int(args[3])
 			secondsRange = (startSec, endSec)
 			movieMaker.wipeDir(movDir)
-			if loadBool is True:
-				mapFile = args[3]
-				colorMap = preProc.loadMapFile(mapFile)
+			#if loadBool is True:
+			#	mapFile = args[3]
+			#	colorMap = preProc.loadMapFile(mapFile)
 #TODO IMPLEMENT MP4BOOL NEW ARGS
-				preProc.readFile(instructionsFile, movDir, outputName, colorMap, mp4Bool, secondsRange = secondsRange)
-			else:
-				preProc.readFile(instructionsFile, movDir, outputName, secondsRange = secondsRange)
+			#	preProc.readFile(instructionsFile, movDir, outputName, colorMap, mp4Bool, secondsRange = secondsRange)
+			#else:
+			preProc.readFile(instructionsFile, movDir, outputName, secondsRange = secondsRange)
 			print time.time() - startTime, 'seconds'
 
 		if joinBool is True:
