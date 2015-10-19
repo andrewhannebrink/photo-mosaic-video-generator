@@ -65,6 +65,14 @@ def changeLittleImgs(dbDir):
 				if a == 0:
 					tempPix[xi,yi] = (255,255,255,1)
 		tempImgFile.convert('RGB')
+
+		# THIS CHANGES THE NAME TO PNG BEFORE SAVING
+                split = imgName.split('.')
+		if split[-1] != 'png':
+			os.system('rm ' + dbDir + imgName.replace(' ', '\ '))
+			split[-1] = 'png'
+			imgName = '.'.join(split)
+			print 'resaving as ' + imgName
 		tempImgFile.save(dbDir + imgName)
 
 #THIS CLASS HOLDS INFORMATION ABOUT AN IMAGE WITH A GIVEN NAME WITHOUT LEAVING THE IMAGE FILE OPEN
