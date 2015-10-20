@@ -98,16 +98,20 @@ Bot.prototype.convertRemojiTweet = function(tweet, tempFile, text, opName) {
       console.log('stderr: ' + stderr);*/
       hashTagCount = thisbot.countHashTags(tweet);
       var dir;
+      var size = 10;
       if (hashTagCount == 0) {
         dir = '/home/ubuntu/photo-mosaic-video-generator/emoji/';
       } else if (hashTagCount == 1) {
         dir = '/home/ubuntu/photo-mosaic-video-generator/win/';
+        size = 12
       } else if (hashTagCount == 2) {
-         dir = '/home/ubuntu/photo-mosaic-video-generator/pokec/';
+        dir = '/home/ubuntu/photo-mosaic-video-generator/pokec/';
+        size = 14
       } else {
-         dir = '/home/ubuntu/photo-mosaic-video-generator/and/';
+        dir = '/home/ubuntu/photo-mosaic-video-generator/and/';
+        size = 12
       }
-      thisbot.remoji(dir, 1, 10, '/home/ubuntu/photo-mosaic-video-generator/public/'+tempFile+'.png', text, tweet, opName);
+      thisbot.remoji(dir, 1, size, '/home/ubuntu/photo-mosaic-video-generator/public/'+tempFile+'.png', text, tweet, opName);
     });
   }, 5000);
 };
