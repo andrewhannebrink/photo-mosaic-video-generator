@@ -55,9 +55,11 @@ def pixelMapSeq(ipdir, opdir, pics, mode, filt, keepWhite = True):
    elif mode == 'flicker':
       glowGlider = None
    for pic in pics:
+      if pic == 'white.png':
+         continue
       if mode == 'flicker':
-         #fact = 128
-         fact = 2**randint(3, 7) # fact can be random in flicker mode
+         fact =  128 
+         #fact = 2**randint(3, 7) # fact can be random in flicker mode
          #fact = 2**6
       ip = Image.open(ipdir + pic).convert('RGB')
       cp = Image.new('RGB', ip.size, 'black')
@@ -83,7 +85,7 @@ def main():
    pics = os.listdir(ipdir)
    modes = ['flicker', 'glow']
    mode = modes[0];
-   filt = [[100, 200], [160, 255], [140, 255]]
+   filt = [[0, 255], [0, 255], [0, 255]]
    keepWhite = False 
 
    pixelMapSeq(ipdir, opdir, pics, mode, filt, keepWhite)
