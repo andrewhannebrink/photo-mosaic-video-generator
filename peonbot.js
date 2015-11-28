@@ -103,13 +103,16 @@ Bot.prototype.convertRemojiTweet = function(tweet, tempFile, text, opName) {
         dir = '/home/ubuntu/photo-mosaic-video-generator/emoji/';
       } else if (hashTagCount == 1) {
         dir = '/home/ubuntu/photo-mosaic-video-generator/win/';
-        size = 12
+        size = 12;
       } else if (hashTagCount == 2) {
         dir = '/home/ubuntu/photo-mosaic-video-generator/pokec/';
-        size = 14
-      } else {
+        size = 14;
+      } else if (hashTagCount == 3) {
         dir = '/home/ubuntu/photo-mosaic-video-generator/and/';
-        size = 12
+        size = 12;
+      } else {
+        dir = '/home/ubuntu/photo-mosaic-video-generator/sailor/';
+        size = 16;
       }
       thisbot.remoji(dir, 1, size, '/home/ubuntu/photo-mosaic-video-generator/public/'+tempFile+'.png', text, tweet, opName);
     });
