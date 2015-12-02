@@ -94,8 +94,6 @@ Bot.prototype.convertRemojiTweet = function(tweet, tempFile, text, opName) {
   var thisbot = this;
   setTimeout(function() {
     thisbot.childProc = exec('convert /home/ubuntu/photo-mosaic-video-generator/public/'+tempFile+'.jpg /home/ubuntu/photo-mosaic-video-generator/public/'+tempFile+'.png', function(error, stdout, stderr) {
-      /*console.log('stdout: ' + stdout);
-      console.log('stderr: ' + stderr);*/
       hashTagCount = thisbot.countHashTags(tweet);
       var dir;
       var size = 10;
@@ -114,12 +112,13 @@ Bot.prototype.convertRemojiTweet = function(tweet, tempFile, text, opName) {
         dir = '/home/ubuntu/photo-mosaic-video-generator/sailor/';
         size = 16;
       }
-      thisbot.remoji(dir, 1, size, '/home/ubuntu/photo-mosaic-video-generator/public/'+tempFile+'.png', text, tweet, opName);
+      thisbot.remoji(dir, 1, size, tempFile, text, tweet, opName);
+      //thisbot.remoji(dir, 1, size, '/home/ubuntu/photo-mosaic-video-generator/public/'+tempFile+'.png', text, tweet, opName);
     });
   }, 5000);
 };
 
-Bot.prototype.picpost = function(text, pic, tweet2Reply2, callback) {
+Bot.prototype.picpost = function(text, pic, tweet2Reply2, tempFile, opName) {
   console.log(pic);
   var png = fs.readFileSync(pic, { encoding: 'base64'});
   var thisbot = this;
@@ -132,19 +131,21 @@ Bot.prototype.picpost = function(text, pic, tweet2Reply2, callback) {
       paramas.in_reply_to_status_id = tweet2Reply2.id_str;
       console.log('in_reply_to_status_id: ' + paramas.in_reply_to_status_id);
     } else {
-       console.log('not in replay to a tweet');
+       console.log('not in reply to a tweet');
     }
     thisbot.twit.post('statuses/update', paramas, function(err, data, response) {
       if (err) {
         console.log(err);
       }
+      thisbot.deletePics(tempFile, opName);
       console.log('data: ' + data);
     });
   });
 };
 
-Bot.prototype.remoji = function (dir, scale, reso, inputPath, text, tweet2Reply2, opName) {
+Bot.prototype.remoji = function (dir, scale, reso, tempFile, text, tweet2Reply2, opName) {
   var thisbot = this;
+  var inputPath = '/home/ubuntu/photo-mosaic-video-generator/public/' + tempFile + '.png';
   var opPath = '/home/ubuntu/photo-mosaic-video-generator/public/' + opName + '.png';
   var cmd = 'python /home/ubuntu/photo-mosaic-video-generator/remoji.py -s ' + inputPath + ' ' + dir + ' ' + opPath + ' ' + scale + ' ' + reso;
   console.log(cmd);
@@ -155,9 +156,20 @@ Bot.prototype.remoji = function (dir, scale, reso, inputPath, text, tweet2Reply2
     if (error !== null) {
       console.log('exec error: ' + error);
     }
-    thisbot.picpost(text, opPath, tweet2Reply2, function(err, reply) {
-      if (err) return handleError(err);
-    });
+    thisbot.picpost(text, opPath, tweet2Reply2, tempFile, opName);
+  });
+};
+
+Bot.prototype.deletePics = function (tempFile, opName) {
+  var pic1 = '/home/ubuntu/photo-mosaic-video-generator/public/' + tempFile + '.jpg';
+  var pic2 = '/home/ubuntu/photo-mosaic-video-generator/public/' + tempFile + '.png';
+  var pic3 = '/home/ubuntu/photo-mosaic-video-generator/public/' + opName + '.png';
+  var cmd = 'rm ' + pic1 + ' ' + pic2 + ' ' + pic3;
+  console.log('deleting pics : ' + cmd);
+  this.childProc = exec(cmd, function(error, stdout, stderr) {
+    if (error !== null) { 
+      console.log(error);
+    }
   });
 };
 
