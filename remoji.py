@@ -145,29 +145,28 @@ def getClosestImg(origTile, littleImgs, colorMap, lilImgDir, oneColor = False):
 			
 
 #THIS FUNCTION FINDS THE SCALE AND IMAGE OF THE TILES IN NEWTILES
-def getNewTiles(origTiles, littleImgs, colorMap, lilImgDir):
-	newTiles = []
-	for y in range(0, len(origTiles)):
-		newTiles.append([])
-		for x in range(0, len(origTiles[0])):
-			newTile = getClosestImg(origTiles[y][x], littleImgs, colorMap, lilImgDir)
-			newTiles[y].append(newTile)
-	return newTiles
+def getNewTilesGen(totalXSideImgs, totalYSideImgs, origTiles, littleImgs, colorMap, lilImgDir):
+	for y in range(totalYSideImgs):
+		for x in range(totalXSideImgs):
+			#newTile = getClosestImg(origTiles[y][x], littleImgs, colorMap, lilImgDir)
+			newTile = getClosestImg(next(origTiles), littleImgs, colorMap, lilImgDir)
+			yield newTile
 		
 #THIS FUNCTION CONSTRUCTS AND RETURNS THE FINAL MOSAIC IMAGE
-def getFinalImg(xt, yt, xBuf, yBuf, newTiles, directory):
+def getFinalImg(totalXSideImgs, totalYSideImgs, xt, yt, xBuf, yBuf, newTiles, directory):
 	finalImg = Image.new('RGB', (int(xt), int(yt)), (0,0,0))
-	tileWidth = int(xt / len(newTiles[0]))
-	tileHeight = int(yt / len(newTiles))
-	for y in range(0, len(newTiles)):
-		for x in range(0, len(newTiles[0])):
-			newImg = Image.open(directory + newTiles[y][x]).convert('RGB')
+	tileWidth = int(xt / totalXSideImgs)
+	tileHeight = int(yt / totalYSideImgs)
+	for y in xrange(totalYSideImgs):
+		for x in xrange(totalXSideImgs):
+			newImg = Image.open(directory + next(newTiles)).convert('RGB')
 			newImg = newImg.resize((tileWidth, tileHeight), Image.ANTIALIAS)
 			finalImg.paste(newImg, (x*tileWidth + xBuf, y*tileHeight + yBuf))	
 	return finalImg	
 
 #GIVEN THE ORIGINAL IMAGE, SCALE, AND DEPTH (PIXEL WIDTH OF SINGLE MOSAIC TILE), THIS FUNCTION BUILDS AND SAVES THE FINAL IMAGE FROM START TO FINISH
 def makeMosaic(targetImgName, scale, depth, littleImgs, outputName, colorMap, lilImgDir, origSkip = 5):
+        start = time.time()
 	print 'started: ' + outputName
 	targetImg = Image.open(targetImgName).convert('RGB')
 	if scale == 'autoScale':
@@ -192,19 +191,29 @@ def makeMosaic(targetImgName, scale, depth, littleImgs, outputName, colorMap, li
 	else:
 		bigTargetImg = targetImg.resize(((int(xi*scale)), int(yi*scale)), Image.ANTIALIAS)
 	#BREAK TARGET IMG INTO SMALLER PIECES THAT WILL BE REPLACED BY ONE EMOJI AND PUT THEM INTO A LIST OF LISTS CORRESPONDING TO TILE POSITION
-	origTiles = []
-	for y in range(0, totalYSideImgs):
-		origTiles.append([])
-		for x in range(0, totalXSideImgs):
-			tempImg = bigTargetImg.crop((x*xn + xBuf, y*yn + yBuf, (x+1)*xn - 1 + xBuf, (y+1)*yn - 1 + yBuf))
-			origTiles[y].append(ImageInfo('tempTile', tempImg, origSkip))
-	newTiles = getNewTiles(origTiles, littleImgs, colorMap, lilImgDir)
+#	origTiles = []
+#	for y in range(0, totalYSideImgs):
+#		origTiles.append([])
+#		for x in range(0, totalXSideImgs):
+#			tempImg = bigTargetImg.crop((x*xn + xBuf, y*yn + yBuf, (x+1)*xn - 1 + xBuf, (y+1)*yn - 1 + yBuf))
+#			origTiles[y].append(ImageInfo('tempTile', tempImg, origSkip))
+        origTiles = origTileGen(totalXSideImgs, totalYSideImgs, xn, yn, xBuf, yBuf, bigTargetImg, origSkip)
+	newTiles = getNewTilesGen(totalXSideImgs, totalYSideImgs, origTiles, littleImgs, colorMap, lilImgDir)
 	#MAKE NEW FRAME AND FILL IT OUT WITH TILES FORM NEWTILES. THIS FUNCTION RETURNS THE FINAL IMAGE
-	finalImg = getFinalImg(xt, yt, xBuf, yBuf, newTiles, lilImgDir)
+	finalImg = getFinalImg(totalXSideImgs, totalYSideImgs, xt, yt, xBuf, yBuf, newTiles, lilImgDir)
 	finalImg.save(outputName)
 	print 'finished: ' + outputName
+        end = time.time()
+        print 'total time: ' + str(end - start)
 	return
-	
+
+# GENERATOR FOR BREAKING IMG INTO SMALLER PIECES THAT WILL BE REPLACED BY ONE EMOJI AND PUT INTO A LIST OF LISTS CORRESPONDING TO TILE POSITION
+def origTileGen(totalXSideImgs, totalYSideImgs, xn, yn, xBuf, yBuf, bigTargetImg, origSkip):
+	for y in xrange(totalYSideImgs):
+		for x in range(totalXSideImgs):
+			tempImg = bigTargetImg.crop((x*xn + xBuf, y*yn + yBuf, (x+1)*xn - 1 + xBuf, (y+1)*yn - 1 + yBuf))	
+			yield ImageInfo('tempTile', tempImg, origSkip)
+
 #CONVERTS GIFFRAMES TO IMAGE FILES OF THE NAME <NAMESTR>0.PNG, <NAMESTR>1.PNG IN THE RELATIVE 'FRAMES/' DIRECTORY. IF AUTO IS TRUE, THIS FUNCTION AUTOMATICALLY FLOPS THE IMAGE TO FIT THE 16:9 ASPECT RATIO
 def convertGif(inputGifName, framesDB, auto = False):
 	longInputGifName = 'gifs/' + inputGifName
